@@ -1,0 +1,17 @@
+{
+  "name": "learning-node-2",
+  "version": "0.0.1",
+  "description": "let how to use nodejs",
+  "main": "index.js",
+  "scripts": {
+    "test": "welcome"
+  },
+  "keywords": [
+    "node"
+  ],
+  "author": "setemi <setemiojo@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
