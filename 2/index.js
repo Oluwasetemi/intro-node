@@ -89,7 +89,8 @@ const unifiedServer = function(req, res) {
 const router = {
   '/': handler.home,
   sample: handler.sample,
-  ping: handler.ping
+  ping: handler.ping,
+  hello: handler.hello
   // users: handler.users,
   // tokens: handler.tokens,
   // checks: handler.checks
