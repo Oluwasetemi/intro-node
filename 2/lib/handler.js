@@ -21,5 +21,8 @@ handler.ping = (data, callback) => {
 handler.notFound = (data, callback) => {
   callback(404);
 };
+handler.hello = (data, callback) => {
+  callback(200, { Hello: 'World' });
+};
 
 module.exports = handler;
