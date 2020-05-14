@@ -1,0 +1,10 @@
+Further using Nodejs and Peep into Express
+Asynchronous and Synchronous Operations in JavaScript and Nodejs
+Synchronous - line by line
+
+Asynchronous
+  - Callback
+  - Promises
+  - Async and Await
+
+We create an http server that can handle basic routing.

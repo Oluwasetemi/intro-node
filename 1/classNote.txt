@@ -1,0 +1,5 @@
+Understanding Nodejs and all its module
+
+* using the require() to require a module or its exported function or variable;
+
+* os module
