@@ -1,0 +1,13 @@
+Understanding the Basics of Express Routing
+REST API
+CRUD
+Create: METHOD(POST) - Example /user or /users (req.body) StatusCode - 201 Created
+Read: METHOD(GET) - Example /user/:id or /users/:id - StatusCode - 200 Ok
+Update: METHOD(PUT or PATCH) - Example /user/:id or /users/:id (req.body or req.query or req.params) - 200 Ok or 204 No Content
+Delete: METHOD(DELETE) - Example /user/:id or /users/:id (req.body or req.query or req.params) - 200 Ok or 204 or 202 deletion
+
+Do more creative thing with our current setup.
+
+Serve static files
+
+Setup views - ejs, hbs, pug
