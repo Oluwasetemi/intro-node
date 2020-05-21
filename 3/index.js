@@ -1,18 +1,22 @@
+require('dotenv').config();
 const bodyParser = require('body-parser');
 const mysql = require('mysql');
 const path = require('path');
 const express = require('../express');
 const idGenerator = require('./util/helpers');
 
+// creating the express app
 const app = express();
 
+// initializing the database details
 const connection = mysql.createConnection({
-  host: 'localhost',
-  user: 'root',
-  password: 'Oluwasetemi@1',
-  database: 'sample'
+  host: process.env.HOST,
+  user: process.env.DBUSER,
+  password: process.env.PASSWORD,
+  database: process.env.DATABASE
 });
 
+// connect to database or console.log error if any
 connection.connect(err => {
   if (!err) {
     console.log('Database connected');
@@ -25,6 +29,7 @@ connection.connect(err => {
 // app.set
 
 // middleware
+// app.use
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
 
@@ -36,6 +41,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // name, age, job, phone
 
+// ROUTES
 // home page
 app.get('/', (req, res) => {
   res.send('Welcome to our user app 👯‍♂️');
@@ -155,7 +161,7 @@ app.post('/users', (req, res) => {
   });
 });
 
-app.get('/users/:id', (req, res) => {
+function getHandler(req, res) {
   const { id } = req.params;
 
   if (!id) return res.send('Error');
@@ -174,7 +180,9 @@ app.get('/users/:id', (req, res) => {
     if (!results) return res.send('Error, user with this ID is alive');
     res.status(200).json(results[0]);
   });
-});
+}
+
+app.get('/users/:id', getHandler);
 
 app.get('/users', (req, res) => {
   connection.query('SELECT * from USERS', function(err, results, fieldInfo) {
@@ -187,6 +195,26 @@ app.get('/users', (req, res) => {
     // console.log({ fieldInfo });
     res.json(results);
   });
+});
+
+app.all('/secret', function(req, res, next) {
+  console.log('Accessing the secret section ...');
+  next(); // pass control to the next handler
+});
+
+app.get(
+  '/example/b',
+  function(req, res, next) {
+    console.log('the response will be sent by the next function ...');
+    next();
+  },
+  function(req, res) {
+    res.send('Hello from B!');
+  }
+);
+
+app.get('*', (req, res) => {
+  res.send('Not a valid route');
 });
 
 app.listen('3000', () => console.log(`working http://localhost:3000`));

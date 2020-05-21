@@ -10,4 +10,6 @@ Do more creative thing with our current setup.
 
 Serve static files
 
-Setup views - ejs, hbs, pug
+Connect to mysql database
+
+Understand Expressjs Routing and express.Route;
