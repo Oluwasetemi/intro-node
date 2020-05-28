@@ -1,2 +1,5 @@
+Deep looking into Express.Router()
+
+Introduction to middleware and route separation
 
 Setup views - ejs, hbs, pug
