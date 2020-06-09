@@ -1,0 +1,40 @@
+body {
+	margin: 0;
+	padding: 0;
+	background-color: rgb(238, 231, 231);
+}
+
+/* navigation */
+nav.navbar {
+	background-color: black;
+	color: white;
+	display: grid;
+	grid-template-columns: 200px 1.2fr 1fr;
+	gap: calc(200px / 100%);
+	/* justify-items: right; */
+}
+
+nav div.logo {
+	margin: 15px;
+	display: inline;
+}
+
+div.menu {
+	/* margin-left: 100 px; */
+	justify-items: right;
+}
+
+ul.shift-right {
+	padding: 0;
+	margin: 0;
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	justify-items: right;
+}
+
+li {
+	display: inline;
+	justify-content: left;
+	list-style-type: none;
+	margin: 15px;
+}

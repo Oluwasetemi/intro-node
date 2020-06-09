@@ -1,4 +1,6 @@
 const cookieParser = require('cookie-parser');
+const fs = require('fs');
+const path = require('path');
 const express = require('../express');
 const users = require('./users');
 const products = require('./products');
@@ -20,6 +22,14 @@ function timeLog(req, res, next) {
   console.log('1st Time: ', Date.now());
   next();
 }
+// public configuration
+app.use(express.static(path.join(__dirname, 'public')));
+
+// view configuration
+app.engine('pug', require('pug').__express);
+
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'pug');
 
 app.use(requestTime);
 // middleware that is specific to this router
@@ -35,6 +45,17 @@ app.use(cookieParser('my secret here'));
 // parses x-www-form-urlencoded
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+
+// routes
+app.use('/users', users);
+app.use('/products', products);
+app.use('/orders', orders);
+
+// error handling
+app.use(function(err, req, res, next) {
+  console.error(err.stack);
+  res.status(501).send('Something broke!');
+});
 
 // home page
 app.get('/', (req, res) => {
@@ -60,10 +81,48 @@ app.post('/', function(req, res) {
   res.redirect('back');
 });
 
-// routes
-app.use('/users', users);
-app.use('/products', products);
-app.use('/orders', orders);
+app.get('/home', (req, res) => {
+  res.render('home.pug', {
+    title: 'Hey',
+    name: 'Oluwasetemi',
+    message: "You're doing well Oo..in"
+  });
+});
+
+app.get('/another', (req, res) => {
+  res.render('another.pug');
+});
+
+/**
+ * Starting with Express 5, route handlers and middleware that return a Promise will call next(value) automatically when they reject or throw an error.
+ *
+ */
+/* app.get('*', (req, res, next) => {
+// throw new Error('BROKEN'); // Express will catch this on its own.
+// fs.readFile('/file-does-not-exist', function(err, data) {
+//   if (err) {
+//     next(err); // Pass errors to Express.
+//   } else {
+//     res.send(data);
+//   }
+// });
+
+// next(err) // passes error to express
+// setTimeout(function() {
+//   try {
+//     throw new Error('BROKEN');
+//   } catch (err) {
+//     console.log(err.message);
+//     next(err);
+//   }
+// });
+
+Promise.resolve()
+  .then(function() {
+    throw new Error('BROKEN');
+  })
+  .catch(next); // Errors will be passed to Express.
+}); */
 
 // server listening
 app.listen(3000, () => {

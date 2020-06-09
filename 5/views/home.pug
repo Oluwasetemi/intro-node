@@ -1,0 +1,22 @@
+include includes/_header.pug
+
+div.container
+  h1= message
+  p This is a container div for my application
+  p Lorem ipsum dolor sit amet #{message}, adipisicing elit. Rerum explicabo ipsam odit totam nulla laudantium id! Aperiam, voluptas enim. Sequi doloribus perferendis facilis itaque fuga ea nulla dolorem perspiciatis facere.
+
+  - var isLoggedIn = true
+  if isLoggedIn
+    p LoggedIn
+  else
+    p Not LoggedIn
+
+  if name
+    h1(class=`${name}` id="head" style="color:tomato" onclick="alert('Hi Working')")= name
+  else
+    h1(class=`${name ? '' : 'no-name'}` id="head" style="color:purple") No name
+
+  - for (var x = 0; x < 3; x++)
+    li item #{x + 10}
+
+include includes/_footer.pug
