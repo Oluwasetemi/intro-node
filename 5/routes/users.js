@@ -1,5 +1,5 @@
 const cookieSession = require('cookie-session');
-const express = require('../express');
+const express = require('../../express');
 
 const router = express.Router();
 

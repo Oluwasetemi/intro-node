@@ -2,9 +2,7 @@ const cookieParser = require('cookie-parser');
 const fs = require('fs');
 const path = require('path');
 const express = require('../express');
-const users = require('./users');
-const products = require('./products');
-const orders = require('./orders');
+const allRoutes = require('./routes/index');
 
 const app = express();
 
@@ -47,9 +45,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 // routes
-app.use('/users', users);
-app.use('/products', products);
-app.use('/orders', orders);
+app.use('/api', allRoutes);
 
 // error handling
 app.use(function(err, req, res, next) {
@@ -125,6 +121,6 @@ Promise.resolve()
 }); */
 
 // server listening
-app.listen(3000, () => {
-  console.log(`App listening on port http://localhost:3000!`);
+app.listen(4000, () => {
+  console.log(`App listening on port http://localhost:4000!`);
 });
