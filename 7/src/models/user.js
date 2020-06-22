@@ -56,6 +56,6 @@ const init = async () => {
   console.log('Tables have synced!');
 };
 
-init();
+// init();
 
 module.exports = User;

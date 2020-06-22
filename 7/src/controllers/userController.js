@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 const user = require('../models/user');
 const { hash } = require('../util/helpers');
 const { send } = require('../util/mail');
@@ -14,6 +15,7 @@ exports.register = async (req, res) => {
     // console.log({ firstName, lastName, email, password });
 
     // hash the password
+    // const hashedPassword = await hash(password);
     const hashedPassword = await hash(password);
 
     // $2a$10$SDN0rmDS9sLu9hO3ZqSjguUmIBSEOuaxFBR2xDWu4eXLZxW28QDmG
@@ -57,4 +59,9 @@ exports.register = async (req, res) => {
     console.log(error.message);
     res.send('Error: User could not be created');
   }
+};
+
+exports.dashboard = (req, res) => {
+  const { user } = res.locals;
+  res.render('dashboard', { firstName: user.firstName });
 };

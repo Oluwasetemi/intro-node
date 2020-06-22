@@ -13,6 +13,7 @@ const seed = async () => {
     email: 'temi@mailinator.com',
     password: await hash('123456')
   });
+
   const stonybrook = await User.create({
     firstName: 'Stony',
     lastName: 'Brook',
@@ -20,8 +21,33 @@ const seed = async () => {
     email: 'temiAgain@mailinator.com',
     password: await hash('123456')
   });
+
+  const admin = await User.create({
+    firstName: 'Adefams',
+    lastName: 'Admin',
+    address: '100 Nicolls Rd, Stony Brook, NY 11794',
+    email: 'adefam@mailinator.com',
+    password: await hash('123456')
+  });
+
   db.close(); // close your db connection else the connection stays alive else your process hangs.
   console.log('Seed Successful!'); // Have a prompt to let you know everything is working correctly!
+  process.exit();
 };
 
-seed(); // initialize the sync!
+const deleteData = async () => {
+  await User.destroy({
+    where: {},
+    truncate: true
+  });
+
+  db.close(); // close your db connection else the connection stays alive else your process hangs.
+  console.log('Users deleted');
+  process.exit();
+};
+
+if (process.argv.includes('--delete')) {
+  deleteData();
+} else {
+  seed(); // initialize the sync!
+}
