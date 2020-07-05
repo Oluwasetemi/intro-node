@@ -1,0 +1,97 @@
+<%- include ("partials/header.ejs") %>
+
+<style>
+	div.input {
+		display: block;
+	}
+</style>
+
+<div class="wrapper">
+    <h2>Update <%= productId %> Product Details</h2>
+    <% if (product) { %>
+	<form action="/product" method="POST">
+		<div class="input">
+			<label for="productId">Product Id:</label>
+			<input
+				type="text"
+				name="productId"
+                id="productId"
+				value="<%= product.productId %>"
+				disabled
+				required
+			/>
+		</div>
+		<div class="input">
+			<label for="productName">Product Name:</label>
+			<input
+				type="text"
+				name="productName"
+				id="productName"
+				value="<%= product.productName %>"
+                required
+			/>
+		</div>
+		<div class="input">
+			<label for="quantity">Quantity:</label>
+			<input
+				type="text"
+				name="quantity"
+				id="quantity"
+                value="<%= product.quantity %>"
+                required
+			/>
+        </div>
+		<div class="input">
+			<label for="barcode">BarCode:</label>
+			<input
+				type="text"
+				name="barcode"
+				id="barcode"
+				value="<%= product.barcode %>"
+				disabled
+				required
+			/>
+        </div>
+		<div class="input">
+			<label for="userId">User Id:</label>
+			<input
+				type="text"
+				name="userId"
+				id="userId"
+				value="<%= product.userId %>"
+				required
+			/>
+        </div>
+		<!-- <div class="input">
+			<label for="image">Image:</label>
+			<input
+				type="file"
+				name="image"
+				id="image"
+				value="<%= product.image %>"
+				required
+			/>
+        </div> -->
+		<div class="input">
+			<label for="description">Product Description:</label>
+			<input
+				type="file"
+				name="description"
+				id="description"
+				value="<%= product.description %>"
+				required
+			/>
+        </div>
+        
+
+		<div class="input">
+			<!-- <input type="button" value="submit ->"> -->
+			<button type="submit">Update Product</button>
+		</div>
+    </form>
+    <% } else { %>
+        <p class="input">Product Not Found. Go <a href="/product">here</a> to add products.</p>
+    <% } %>
+</div>
+
+<%- include ("partials/footer.ejs") %>

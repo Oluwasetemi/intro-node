@@ -1,11 +1,20 @@
 /* eslint-disable no-shadow */
 const user = require('../models/user');
+const product = require('../models/product');
 const { hash } = require('../util/helpers');
 const { send } = require('../util/mail');
+const popup = require('node-popup');
+const popup2 = require('node-popup/dist/cjs.js');
 
 exports.homePage = (req, res) => {
   res.render('register.ejs');
 };
+
+// exports.product = (req, res) => {
+//   res.send('myproduct');
+// };
+
+
 
 exports.register = async (req, res) => {
   try {
@@ -13,6 +22,8 @@ exports.register = async (req, res) => {
     const [firstName, lastName] = req.body.name.split(' ');
     const { password, email } = req.body;
     // console.log({ firstName, lastName, email, password });
+
+    const productDetail2 = await product.findAll(); //Sequelize Select Query
 
     // hash the password
     // const hashedPassword = await hash(password);
@@ -34,6 +45,23 @@ exports.register = async (req, res) => {
       res.send('Error: User could not be created');
     }
 
+    // import {confirm} from 'node-popup';
+    // const {confirm} = require('node-popup')
+        // const main = async ()=>{
+        //     try{
+        //         await popup('Confirm or Deny?');
+        //         console.log('Confirmed!');// OK button clicked
+        //     }catch(error){
+        //         console.log('Denied!');// cancel button clicked
+        //     }
+        // }
+        // main();
+
+
+
+
+
+
     //   using nodemailer to test with mailtrap
     // 3. Email them that reset token
     // const mailRes = await transport.sendMail({
@@ -45,23 +73,39 @@ exports.register = async (req, res) => {
     //       `)
     // });
 
-    await send({
-      filename: 'welcome-to-adefam',
-      to: createdUser.email,
-      subject: 'Registration Successful',
-      name: createdUser.firstName
-    });
+    // await send({
+    //   filename: 'welcome-to-adefam',
+    //   to: createdUser.email,
+    //   subject: 'Registration Successful',
+    //   name: createdUser.firstName
+    // });
 
     res.render('dashboard.ejs', {
-      firstName: createdUser.dataValues.firstName
+      firstName: createdUser.dataValues.firstName,
+      productDetail: productDetail2
     });
   } catch (error) {
     console.log(error.message);
-    res.send('Error: User could not be created');
+    res.send('Error: Email did not sent');
   }
 };
+
+
 
 exports.dashboard = (req, res) => {
   const { user } = res.locals;
   res.render('dashboard', { firstName: user.firstName });
 };
+
+// exports.getProduct = async (req, res) => {
+//   try{
+//       const productDetail = await product.findAll(); //Sequelize Select Query
+     
+//       // execute query
+//       res.render('dashboard.ejs', {productDetail}); //Pass FirstName and produdctDetail to the dashboard
+//   }
+//   catch (error) {
+//           console.log(error.message);
+//   }
+          
+//   };

@@ -13,7 +13,7 @@ const Session = sequelize.define(
     data: Sequelize.STRING(500)
   },
   {
-    modelName: 'sessions'
+    modelName: 'Session'
   }
 );
 

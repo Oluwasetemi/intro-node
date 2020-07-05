@@ -9,6 +9,7 @@ const { sequelize } = require('./db');
 const routes = require('./routes');
 const Session = require('./models/session');
 const User = require('./models/user');
+const Product = require('./models/product');
 
 const app = express();
 
@@ -55,20 +56,20 @@ function requiresLogin(req, res, next) {
 }
 
 // Make userId available in templates
-app.use(function(req, res, next) {
-  res.locals.currentUser = req.session.userId;
-  next();
-});
+  // app.use(function(req, res, next) {
+  //   res.locals.currentUser = req.session.userId;
+  //   next();
+  // });
 
 // Make userId available in templates
-app.use(async function(req, res, next) {
-  if (req.session && req.session.userId) {
-    // populate the user field
-    const userData = await User.findOne({ where: { id: req.session.userId } });
-    res.locals.user = userData;
-    next();
-  }
-});
+    // app.use(async function(req, res, next) {
+    //   if (req.session && req.session.userId) {
+    //     // populate the user field
+    //     const userData = await User.findOne({ where: { id: req.session.userId } });
+    //     res.locals.user = userData;
+    //     next();
+    //   }
+    // });
 
 // public configuration
 const publicPath = path.join(__dirname, 'public');

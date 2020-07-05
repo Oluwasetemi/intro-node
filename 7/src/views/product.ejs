@@ -1,0 +1,91 @@
+<%- include ("partials/header.ejs") %>
+
+<style>
+	div.input {
+		display: block;
+	}
+</style>
+
+<div class="wrapper">
+	<h2>Input Product Details</h2>
+	<form action="/product" method="POST">
+		<div class="input">
+			<label for="productId">Product Id:</label>
+			<input
+				type="text"
+				name="productId"
+				id="productId"
+				placeholder="Enter a productId"
+				required
+			/>
+		</div>
+		<div class="input">
+			<label for="productName">Product Name:</label>
+			<input
+				type="text"
+				name="productName"
+				id="productName"
+				placeholder="Enter a Product Name"
+				required
+			/>
+		</div>
+		<div class="input">
+			<label for="quantity">Quantity:</label>
+			<input
+				type="text"
+				name="quantity"
+				id="quantity"
+				placeholder="Enter Quantity"
+				required
+			/>
+        </div>
+		<div class="input">
+			<label for="barcode">BarCode:</label>
+			<input
+				type="text"
+				name="barcode"
+				id="barcode"
+				placeholder="Enter BarCode"
+				required
+			/>
+        </div>
+		<div class="input">
+			<label for="userId">User Id:</label>
+			<input
+				type="text"
+				name="userId"
+				id="userId"
+				placeholder="Enter User Id"
+				required
+			/>
+        </div>
+		<!-- <div class="input">
+			<label for="image">Image:</label>
+			<input
+				type="file"
+				name="image"
+				id="image"
+				placeholder="Enter product Image"
+				required
+			/>
+        </div> -->
+		<div class="input">
+			<label for="description">Product Description:</label>
+			<input
+				type="text"
+				name="description"
+				id="description"
+				placeholder="Enter Product Discription"
+				required
+			/>
+        </div>
+        
+
+		<div class="input">
+			<!-- <input type="button" value="submit ->"> -->
+			<button type="submit">Submit</button>
+		</div>
+	</form>
+</div>
+
+<%- include ("partials/footer.ejs") %>

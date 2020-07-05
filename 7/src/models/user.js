@@ -52,10 +52,11 @@ User.init(
 );
 
 const init = async () => {
-  await User.sync({ force: true }); // force true will drop the table if it already exists
+  await User.sync(); //creates the table if it doesn't exist
+  // await User.sync({ force: true }); // force true will drop the table if it already exists
   console.log('Tables have synced!');
 };
 
-// init();
+init();
 
 module.exports = User;
