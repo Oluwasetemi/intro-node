@@ -51,7 +51,7 @@ Product.init(
 
 const init = async () => {
     await Product.sync(); // force true will drop the table if it already exists
-    console.log('Tables have synced!');
+    console.log('Product Tables have synced!');
   };
 
   init()

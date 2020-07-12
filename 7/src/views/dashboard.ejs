@@ -1,12 +1,12 @@
 <%- include ("partials/header.ejs") %>
 
 <h1><%= firstName %> Successfully</h1>
-<h3><a href="/product">Add Product</a></h3>
+<h3><a href="/products">Add Product</a></h3>
 <a href="/">Click here to go back to the home page</a>
 
-<div class="">
+<div class="table-wrapper">
     <% if (productDetail.length > 0) {%>
-        <table class="">
+        <table class="table table-hovered">
             <thead class="">
                 <tr>
                     <th scope="col">Product ID</th>
@@ -15,19 +15,19 @@
                     <th scope="col">Barcode</th>
                     <th scope="col">User Id</th>
                     <th scope="col">Description</th>
-                    <!-- <th scope="col">Image</th> -->
+                    <th scope="col">Image</th>
                 </tr>
             </thead>
             <tbody>
                 <% productDetail.forEach((product, index) => { %>
                     <tr>
                         <th scope="row"><%= product.productId %></th>
-                        <!-- <td><img src="/assets/img/<%= product.image %>" class="rounded-circle product-img" alt=""></td> -->
                         <td><a href="/product/<%= product.productId %>"><%= product.productName %></a></td>
                         <td><%= product.quantity %></td>
                         <td><%= product.barcode %></td>
                         <td>@<%= product.userId %></td>
                         <td><%= product.description %></td>
+                        <td><img src="/img/<%= product.image %>" class="rounded-circle product-img" alt=""></td>
                         <!-- <td>
                             <a href="/edit/<%= product.productId %>" target="" rel="noopener">Edit</a>
                             <a href="/delete/<%= product.productId %>">Delete</a>
@@ -37,6 +37,6 @@
             </tbody>
         </table>
     <% } else { %>
-        <!-- <p>No product found. Go <a href="/product" >here</a> to add product.</p> -->
+        <p>No product found. Go <a href="/products" >here</a> to add product.</p>
     <% } %>
 </div>

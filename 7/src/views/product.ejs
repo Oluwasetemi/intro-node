@@ -8,7 +8,7 @@
 
 <div class="wrapper">
 	<h2>Input Product Details</h2>
-	<form action="/product" method="POST">
+	<form action="/products" method="POST" enctype="multipart/form-data">
 		<div class="input">
 			<label for="productId">Product Id:</label>
 			<input
@@ -38,7 +38,8 @@
 				placeholder="Enter Quantity"
 				required
 			/>
-        </div>
+		</div>
+		
 		<div class="input">
 			<label for="barcode">BarCode:</label>
 			<input
@@ -48,7 +49,8 @@
 				placeholder="Enter BarCode"
 				required
 			/>
-        </div>
+		</div>
+		
 		<div class="input">
 			<label for="userId">User Id:</label>
 			<input
@@ -58,8 +60,9 @@
 				placeholder="Enter User Id"
 				required
 			/>
-        </div>
-		<!-- <div class="input">
+		</div>
+		
+		<div class="input">
 			<label for="image">Image:</label>
 			<input
 				type="file"
@@ -68,7 +71,8 @@
 				placeholder="Enter product Image"
 				required
 			/>
-        </div> -->
+		</div>
+		
 		<div class="input">
 			<label for="description">Product Description:</label>
 			<input

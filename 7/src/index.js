@@ -1,5 +1,8 @@
 require('dotenv').config({ path: 'variables.env' });
 const express = require('express');
+const fileUpload = require('express-fileupload')
+const methodOverride = require('method-override') //To delete and update using Sequelize 
+const flash = require('express-flash') //request for flash module of message
 
 const path = require('path');
 const session = require('express-session');
@@ -12,6 +15,9 @@ const User = require('./models/user');
 const Product = require('./models/product');
 
 const app = express();
+
+// Flash MiddleWare
+app.use(flash());
 
 // parses x-www-form-urlencoded
 app.use(express.urlencoded({ extended: false }));
@@ -75,6 +81,11 @@ function requiresLogin(req, res, next) {
 const publicPath = path.join(__dirname, 'public');
 app.use(express.static(publicPath));
 
+app.use(fileUpload()); // configure fileupload
+
+// MethodOverride Middleware
+app.use(methodOverride('_method'))
+
 // view configuration
 app.engine('ejs', require('ejs').__express);
 // OR
@@ -85,7 +96,13 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 // app.set('view engine', 'ejs');
 
+// Router handler
 app.use('/', routes);
+
+app.get('*', (req, res) => {
+  // req.flash('error: No Page found')
+  res.send(req.flash('Error: No such page found, please check ur URL'))
+})
 
 // error handler
 

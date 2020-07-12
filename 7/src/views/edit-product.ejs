@@ -62,16 +62,17 @@
 				required
 			/>
         </div>
-		<!-- <div class="input">
-			<label for="image">Image:</label>
-			<input
+		<div class="input">
+			<label for="image"><%= product.image %></label>
+			<img src="/img/<%= product.image %>" class="rounded-circle product-img" alt="">
+			<!-- <input
 				type="file"
 				name="image"
 				id="image"
 				value="<%= product.image %>"
 				required
-			/>
-        </div> -->
+			/> -->
+        </div>
 		<div class="input">
 			<label for="description">Product Description:</label>
 			<input
