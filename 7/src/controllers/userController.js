@@ -5,6 +5,8 @@ const { hash } = require('../util/helpers');
 const { send } = require('../util/mail');
 const popup = require('node-popup');
 const popup2 = require('node-popup/dist/cjs.js');
+const User = require('../models/user');
+const {promisify} = require('util')
 
 exports.homePage = (req, res) => {
   res.render('register.ejs');
@@ -14,14 +16,51 @@ exports.homePage = (req, res) => {
 //   res.send('myproduct');
 // };
 
+exports.register = async (req, res,  next) => {
+  const [firstName, lastName] = req.body.name.split(' ');
+  const { password, password2, email, phone } = req.body;
 
+  const createdUser = await user.create({
+    firstName,
+    lastName,
+    email,
+    phone,
+    password
+  });
 
-exports.register = async (req, res) => {
+  const register = promisify(User.register); console.log(register);
+  await register(createdUser, req.body.password )
+
+  next()
+
+}
+
+/* exports.register = async (req, res) => {
   try {
     // console.log(req.body);
     const [firstName, lastName] = req.body.name.split(' ');
-    const { password, email } = req.body;
+    const { password, password2, email, phone } = req.body;
     // console.log({ firstName, lastName, email, password });
+
+    // Check required fields
+    if(!firstName || !lastName || !email || !phone || !password || !password2) {
+      req.flash('error', 'Please fill in all fields')
+      res.render('register.ejs')
+    } else if(password !== password2) { // Check passwords match
+      req.flash('error', 'Password do not match')
+      res.render('register.ejs')
+    } else if(password.length < 8) { // Check password length
+      req.flash('error', 'Password should be at least 8 characters')
+      res.render('register.ejs')
+  } else {
+
+    const checkUser = await user.findOne({where: {email: email}}) // To check if the user exist
+              if(checkUser) {
+                    req.flash( 'error', 'User is already registered')
+                    res.render('register.ejs')
+                } else {
+
+
 
     const productDetail2 = await product.findAll(); //Sequelize Select Query
 
@@ -36,13 +75,15 @@ exports.register = async (req, res) => {
       firstName,
       lastName,
       email,
+      phone,
       password: hashedPassword
     });
 
     // console.log(createdUser);
 
     if (!createdUser) {
-      res.send('Error: User could not be created');
+      req.flash('error', 'Registration not successful, Please check your records');
+      res.render('register.ejs')
     }
 
     // import {confirm} from 'node-popup';
@@ -56,11 +97,6 @@ exports.register = async (req, res) => {
         //     }
         // }
         // main();
-
-
-
-
-
 
     //   using nodemailer to test with mailtrap
     // 3. Email them that reset token
@@ -79,33 +115,24 @@ exports.register = async (req, res) => {
     //   subject: 'Registration Successful',
     //   name: createdUser.firstName
     // });
-
-    res.render('dashboard.ejs', {
+    req.flash('success', 'Registration successful')
+    res.render('loginform.ejs', {
       firstName: createdUser.dataValues.firstName,
       productDetail: productDetail2
     });
+  };
+
+  }
   } catch (error) {
     console.log(error.message);
     res.send('Error: Email did not sent');
   }
 };
-
-
+ */
 
 exports.dashboard = (req, res) => {
   const { user } = res.locals;
   res.render('dashboard', { firstName: user.firstName });
 };
 
-// exports.getProduct = async (req, res) => {
-//   try{
-//       const productDetail = await product.findAll(); //Sequelize Select Query
-     
-//       // execute query
-//       res.render('dashboard.ejs', {productDetail}); //Pass FirstName and produdctDetail to the dashboard
-//   }
-//   catch (error) {
-//           console.log(error.message);
-//   }
-          
-//   };
+

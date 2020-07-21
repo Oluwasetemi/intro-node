@@ -7,6 +7,10 @@
 		<link rel="stylesheet" href="/stylesheets/main.css" />
 		<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" /> -->
 		<link rel="stylesheet" href="/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="/css/style.css" />
+		<script type="text/javaScript" src="/js/index.js"></script>
+		<!-- <script type="text/javaScript" src="/js/index2.js"></script> -->
+		
 
 		<title>Welcome to Adefam Inventory App</title>
 	</head>
@@ -23,8 +27,43 @@
 		.add-player-form {
 			margin-top: 50px;
 		}
+		.center {
+			/* position: relative; */
+			padding-left: auto !important;
+			padding-right: auto !important;
+			/* align-content:center !important; */
+		}
 	</style>
 	<body>
+		<nav class="nav mycard justify-content-center">
+			<a class="navbar-brand" href="/">
+				<img src="/docs/4.0/assets/brand/bootstrap-solid.svg" width="30" height="30" class="d-inline-block align-top" alt="">
+				Welcome to ADEFAM openShop
+			  </a>
+
+		</nav>
+
+		<nav class="navbar navbar-expand-lg navbar-light bg-light">
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+			  <span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse justify-content-center" id="navbar">
+			  <ul class="navbar-nav my-2">
+				<li class="nav-item active">
+				  <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+				</li>
+				<li class="nav-item">
+				  <a class="nav-link" href="#">Login</a>
+				</li>
+				<li class="nav-item">
+				  <a class="nav-link" href="#">Contact</a>
+				</li>
+				
+			  </ul>
+			</div>
+		  </nav>
+
+		  <div class="container">
 		<% if (messages.success) { %>
 		<div class="alert alert-success" role="alert"><%- messages.success %></div>
 		<% } %>
@@ -32,9 +71,12 @@
 		<% if (messages.error) { %>
 		<div class="alert alert-danger" role="alert"><%- messages.error %></div>
 		<% } %>
-
-		<a href="/">
+	</div>
+		<!-- <a href="/">
 			<h1>Welcome to Adefam Shops</h1>
-		</a>
+		</a> -->
+
+
+		
 	</body>
 </html>

@@ -1,6 +1,7 @@
 const Sequelize = require('sequelize');
 const bcrypt = require('bcryptjs');
 const { sequelize } = require('../db');
+const passportLocalSequelize = require('passport-local-sequelize')
 
 const { Model } = Sequelize;
 
@@ -21,10 +22,18 @@ User.init(
       type: Sequelize.STRING
       // allowNull defaults to true
     },
+    phone: {
+      type: Sequelize.STRING
+      // allowNull defaults to true
+    },
     password: {
       type: Sequelize.STRING
       // allowNull defaults to true
     },
+    // salt: {
+    //   type: Sequelize.STRING
+    //   // allowNull defaults to true
+    // },
     status: {
       type: Sequelize.ENUM,
       values: ['active', 'pending', 'deleted'],
@@ -50,6 +59,9 @@ User.init(
     }
   }
 );
+passportLocalSequelize.attachToUser(User, {
+  usernameField: 'email'
+})
 
 const init = async () => {
   await User.sync(); //creates the table if it doesn't exist

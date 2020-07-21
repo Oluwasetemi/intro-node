@@ -1,6 +1,7 @@
 <%- include ("partials/header.ejs") %>
 
 <h1><%= firstName %> Successfully</h1>
+<h3><a href="/logout">Logout</a></h3>
 <h3><a href="/products">Add Product</a></h3>
 <a href="/">Click here to go back to the home page</a>
 
@@ -36,6 +37,13 @@
                 <% }) %>
             </tbody>
         </table>
+        <div class="d-flex justify-content-center">
+            <div  class="p-2"><a href="/dashboard/page/<%= page - 1 %>" id="previous">Previous</a></div>
+            <div id="page" class="p-2"><%= page %></div>
+            <div class="p-2">of</div>
+            <div id="pages" class="p-2"><%= pages %></div>
+            <div class="p-2"><a href="/dashboard/page/<%= Number(page) + Number(1) %>" id="next">Next</a></div>
+        </div>
     <% } else { %>
         <p>No product found. Go <a href="/products" >here</a> to add product.</p>
     <% } %>

@@ -3,6 +3,7 @@ const express = require('express');
 const fileUpload = require('express-fileupload')
 const methodOverride = require('method-override') //To delete and update using Sequelize 
 const flash = require('express-flash') //request for flash module of message
+const passport = require('passport')  //Passport for authentication
 
 const path = require('path');
 const session = require('express-session');
@@ -13,6 +14,8 @@ const routes = require('./routes');
 const Session = require('./models/session');
 const User = require('./models/user');
 const Product = require('./models/product');
+
+require('./util/passport')
 
 const app = express();
 
@@ -38,10 +41,15 @@ app.use(
   session({
     resave: true, // don't save session if unmodified
     saveUninitialized: true, // don't create session until something stored
+    // secret: true
     secret: process.env.TOKEN_SECRET,
-    store: sessionStore
+    // store: sessionStore
   })
 );
+// Passport Middleware
+app.use(passport.initialize());
+app.use(passport.session());
+
 
 sessionStore.sync();
 
@@ -81,10 +89,11 @@ function requiresLogin(req, res, next) {
 const publicPath = path.join(__dirname, 'public');
 app.use(express.static(publicPath));
 
+// Middleware for file upload
 app.use(fileUpload()); // configure fileupload
 
-// MethodOverride Middleware
-app.use(methodOverride('_method'))
+// MethodOverride Middleware for delete route
+app.use(methodOverride('_method')) 
 
 // view configuration
 app.engine('ejs', require('ejs').__express);
@@ -92,7 +101,6 @@ app.engine('ejs', require('ejs').__express);
 // app.engine('html', require('ejs').renderFile);
 // set default engine
 app.set('view engine', 'ejs');
-
 app.set('views', path.join(__dirname, 'views'));
 // app.set('view engine', 'ejs');
 

@@ -1,8 +1,7 @@
 <%- include ("partials/header.ejs") %>
 
+
 <h2>Update <%= product.productId %> Product Details</h2>
-
-
 
 <pre>
   <%=  JSON.stringify(product) %>
@@ -15,59 +14,77 @@
 	}
 </style>
 
-<div class="wrapper">
-	<h2>Update <%= product.productName %> Product Details</h2>
-	<% if (product) { %>
-	<form action="/product/<%= product.productId %>" method="POST">
-		<div class="input">
-			<label for="productId">Product Id:</label>
-			<input type="text" name="productId" id="productId" value="<%= product.productId %>" disabled required />
-		</div>
-		<div class="input">
-			<label for="productName">Product Name:</label>
-			<input type="text" name="productName" id="productName" value="<%= product.productName %>" required />
-		</div>
-		<div class="input">
-			<label for="quantity">Quantity:</label>
-			<input type="text" name="quantity" id="quantity" value="<%= product.quantity %>" required />
-		</div>
-		<div class="input">
-			<label for="barcode">BarCode:</label>
-			<input type="text" name="barcode" id="barcode" value="<%= product.barcode %>" disabled required />
-		</div>
-		<div class="input">
-			<label for="userId">User Id:</label>
-			<input type="text" name="userId" id="userId" value="<%= product.userId %>" required />
-		</div>
-		<div class="input">
-			<img src="/img/<%= product.image %>" class="rounded-circle product-img" alt="">
-			<label for="image"><%= product.productName %></label>
-			<input
-				type="file"
-				name="image"
-				id="image"
-				value="<%= product.image %>"
-				required
-			/>
-        </div>
-		<div class="input">
-			<label for="description">Product Description:</label>
-			<input type="text" name="description" id="description" value="<%= product.description %>" required />
-		</div>
-		<div class="input">
-			<!-- <input type="button" value="submit ->"> -->
-			<button type="submit">Update Product</button>
-		</div>
-	</form>
-	<form action="/product/<%= product.productId %>?_method=delete" method="POST">
-		
-		<!-- <a href="/product/<%= product.productId %>">Delete</a> -->
+<div class="wrapper container">
+	<div class="card card-body">
+		<h2 class="text-center">Update <%= product.productName %> Product Details</h2>
 
-		<button type="submit">Delete</button>
-	</form>
-	<% } else { %>
-	<p class="input">Product Not Found. Go <a href="/product">here</a> to add products.</p>
-	<% } %>
+		<% if (product) { %>
+		<div class="row">
+			<div class="col-md-6 col-6">
+				<button class="float-right btn btn-info" type="submit" onclick="editUpdate()">Update Product</button>
+			</div>
+			<div class="col-md-6 col-6">
+				<form action="/product/<%= product.productId %>?_method=delete" method="POST">
+					<!-- <a href="/product/<%= product.productId %>">Delete</a> -->
+					<button class="btn btn-danger" type="submit" onclick="deleteProduct()">Delete</button>
+				</form>
+			</div>
+		</div>
+		<form action="/product/<%= product.productId %>" method="POST" enctype="multipart/form-data">
+			<div class="row">
+				<div class="image-area mt-4 figure-img form-group">
+					<img src="/img/<%= product.image %>" class="img-fluid rounded shadow-sm mx-auto d-block"   alt="<%= product.productName %> Image">
+					<label class="text-center image-text" for="image"><%= product.productName %></label>
+					<br />
+					<input class="form-control" type="file" name="image" id="image" value="<%= product.image %>" disabled />
+				</div> 
+			</div>
+
+			<div class="form-row">
+
+			<div class="form-group col-md-4">
+				<label for="productId">Product Id:</label>
+				<input class="form-control" type="text" name="productId" id="productId" value="<%= product.productId %>" disabled required />
+			</div>
+			<div class="form-group col-md-4">
+				<label for="productName">Product Name:</label>
+				<input class="form-control" type="text" name="productName" id="productName" value="<%= product.productName %>" disabled
+					required />
+			</div>
+			<div class="form-group col-md-4">
+				<label for="quantity">Quantity:</label>
+				<input class="form-control" type="text" name="quantity" id="quantity" value="<%= product.quantity %>" disabled required />
+			</div>
+			<div class="form-group col-md-4">
+				<label for="barcode">BarCode:</label>
+				<input class="form-control" type="text" name="barcode" id="barcode" value="<%= product.barcode %>" disabled required />
+			</div>
+			<div class="form-group col-md-4">
+				<label for="userId">User Id:</label>
+				<input class="form-control" type="text" name="userId" id="userId" value="<%= product.userId %>" disabled required />
+			</div>
+			<!-- <div class="form-group col-md-4">
+				<label for="image"><%= product.productName %></label>
+				<input type="file" name="image" id="image" value="<%= product.image %>" disabled />
+			</div> -->
+			<div class="form-group col-md-4">
+				<label for="description">Product Description:</label>
+				<textarea class="form-control" type="text" name="description" id="description" disabled
+					required><%= product.description %> </textarea>
+				<!-- <input type="text" name="description" id="description" value="<%= product.description %>" disabled
+					required /> -->
+			</div>
+			<div class="form-group col-md-12">
+				<!-- <input type="button" value="submit ->"> -->
+				<button class="btn btn-success float-right" type="submit" onclick="getUpdate()" id="getUpdated" style="display: none;">Save Product</button>
+			</div>
+		</div>
+		</form>
+
+		<% } else { %>
+		<p class="input">Product Not Found. Go <a href="/product">here</a> to add products.</p>
+		<% } %>
+	</div>
 </div>
 
 
