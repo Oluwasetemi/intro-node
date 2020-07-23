@@ -1,7 +1,7 @@
 require('dotenv').config({ path: 'variables.env' });
 const express = require('express');
 const fileUpload = require('express-fileupload')
-const methodOverride = require('method-override') //To delete and update using Sequelize 
+const methodOverride = require('method-override') //To delete and update using Sequelize
 const flash = require('express-flash') //request for flash module of message
 const passport = require('passport')  //Passport for authentication
 
@@ -93,7 +93,7 @@ app.use(express.static(publicPath));
 app.use(fileUpload()); // configure fileupload
 
 // MethodOverride Middleware for delete route
-app.use(methodOverride('_method')) 
+app.use(methodOverride('_method'))
 
 // view configuration
 app.engine('ejs', require('ejs').__express);

@@ -6,10 +6,10 @@ exports.loginForm = (req, res) => {
   res.render('loginform');
 };
 
-exports.login = passport.authenticate('local', {
+exports.login = User.authenticate('local', {
   failureRedirect: '/login',
   failureFlash: 'Failed Login!',
-  successRedirect: '/',
+  successRedirect: '/dashboard',
   successFlash: 'You are now logged in!'
 })
 
@@ -41,8 +41,8 @@ exports.login = passport.authenticate('local', {
 
 // Logout Handle
 exports.logout = (req, res) => {
+    console.log('logged out')
   req.logout();
   req.flash('success', 'You are logged out');
-  res.redirect('/loginform')
+  res.redirect('/login')
 }
-
