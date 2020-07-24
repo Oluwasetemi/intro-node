@@ -111,9 +111,13 @@ exports.getProduct = async (req, res) => {
 
     const pages = Math.ceil(total / limit)
 
-    if (page > pages) {
-      req.flash('error', `You requested for page ${page}, but that doesn't exist so I will put you on page ${pages}`)
-      res.redirect(`product/page/${pages}`);
+      if (pages === 0) {
+          res.send('No products Still');
+          return;
+        }
+        if ( page > pages) {
+            req.flash('error', `You requested for page ${page}, but that doesn't exist so I will put you on page ${pages}`)
+            res.render('dashboard.ejs', { firstName: 'adefam', productDetail: productData, total, page, pages }); //Pass FirstName and produdctDetail to the dashboard
       return
     }
     // execute query

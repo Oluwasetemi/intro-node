@@ -1,4 +1,5 @@
 const express = require('express');
+const passport = require('passport')
 
 const router = express.Router();
 
@@ -31,16 +32,16 @@ router.get('/card', (req, res) => {
 router.get('/register', userController.homePage);
 
 // Product Route
-router.get('/products',  productController.productPage);
+router.get('/products',  authController.isLoggedIn, productController.productPage);
 
-router.get('/dashboard',  productController.getProduct);
+router.get('/dashboard',  authController.isLoggedIn, productController.getProduct);
 router.get('/dashboard/page/:pageNumber',  productController.getProduct); //Product Route With Pagination
 
 // Get product based on product Id
-router.get('/product/:productId', productController.viewProductPage);
+router.get('/product/:productId', authController.isLoggedIn,productController.viewProductPage);
 
 // Create Product
-router.post('/products', productController.product);
+router.post('/products', authController.isLoggedIn, productController.product);
 
 // Update Product
 // router.put('/product/:productId', productController.editProduct);
@@ -51,16 +52,16 @@ router.post('/product/:productId', productController.editProduct);
 router.delete('/product/:productId', ensureAuthenticated, productController.deleteProduct);
 
 // Display Product
-router.get('/', productController.displayProduct);
+router.get('/', productController.getProduct);
 
 
 router.post('/register', userController.register, authController.login);
 
 router.get('/login', authController.loginForm);
 
-router.post('/login', authController.login);
+router.post('/login',authController.login);
 
-router.get('/dashboard', userController.dashboard);
+// router.get('/dashboard', authController.isLoggedIn, userController.dashboard);
 
 // Logout Handler
 router.get('/logout', authController.logout)

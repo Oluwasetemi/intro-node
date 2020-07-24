@@ -51,7 +51,23 @@ exports.register = async (req, res,  next) => {
             res.redirect('/register')
         }
             // console.log(user)
-            next()
+             if (user) {
+    passport.authenticate('local', function(err, user, info) {
+      if (err) { return next(err); }
+        if (!user) {
+            req.flash('error', `${info.message}`)
+            return res.redirect('/login');
+        }
+
+
+        req.logIn(user, function(err) {
+            if (err) { return next(err); }
+            req.flash('success', `User registered successfully`)
+            req.flash('success', `User logged in successfully`)
+        return res.render('dashboard', {...res.locals.user.dataValues, productDetail: res.locals.products});
+      });
+    })(req, res, next);
+  }
     })
 
         //   User.create({
