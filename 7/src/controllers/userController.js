@@ -5,7 +5,7 @@ const { hash } = require('../util/helpers');
 const { send } = require('../util/mail');
 const popup = require('node-popup');
 const popup2 = require('node-popup/dist/cjs.js');
-const User = require('../models/user');
+// const User = require('../models/user');
 const {promisify} = require('util')
 
 exports.homePage = (req, res) => {
@@ -16,26 +16,26 @@ exports.homePage = (req, res) => {
 //   res.send('myproduct');
 // };
 
-exports.register = async (req, res,  next) => {
-  const [firstName, lastName] = req.body.name.split(' ');
-  const { password, password2, email, phone } = req.body;
+// exports.register = async (req, res,  next) => {
+//   const [firstName, lastName] = req.body.name.split(' ');
+//   const { password, password2, email, phone } = req.body;
 
-  const createdUser = await user.create({
-    firstName,
-    lastName,
-    email,
-    phone,
-    password
-  });
+//   const createdUser = await user.create({
+//     firstName,
+//     lastName,
+//     email,
+//     phone,
+//     password
+//   });
 
-  const register = promisify(User.register); console.log(register);
-  await register(createdUser, req.body.password )
+//   const register = promisify(User.register); console.log(register);
+//   await register(createdUser, req.body.password )
 
-  next()
+//   next()
 
-}
+// }
 
-/* exports.register = async (req, res) => {
+exports.register = async (req, res) => {
   try {
     // console.log(req.body);
     const [firstName, lastName] = req.body.name.split(' ');
@@ -128,8 +128,8 @@ exports.register = async (req, res,  next) => {
     res.send('Error: Email did not sent');
   }
 };
- */
 
+ 
 exports.dashboard = (req, res) => {
   const { user } = res.locals;
   res.render('dashboard', { firstName: user.firstName });

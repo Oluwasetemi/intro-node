@@ -6,14 +6,14 @@ exports.loginForm = (req, res) => {
   res.render('loginform');
 };
 
-exports.login = passport.authenticate('local', {
-  failureRedirect: '/login',
-  failureFlash: 'Failed Login!',
-  successRedirect: '/',
-  successFlash: 'You are now logged in!'
-})
+// exports.login = passport.authenticate('local', {
+//   failureRedirect: '/login',
+//   failureFlash: 'Failed Login!',
+//   successRedirect: '/',
+//   successFlash: 'You are now logged in!'
+// })
 
-/* exports.login = async (req, res) => {
+exports.login = async (req, res) => {
   // check if email exist
   console.log(req.body.email);
   const userExist = await User.findOne({ where: { email: req.body.email } });
@@ -37,7 +37,7 @@ exports.login = passport.authenticate('local', {
   //
   req.session.save(res.redirect('/dashboard'));
 };
- */
+ 
 
 // Logout Handle
 exports.logout = (req, res) => {
