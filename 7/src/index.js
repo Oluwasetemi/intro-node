@@ -1,11 +1,12 @@
 require('dotenv').config({ path: 'variables.env' });
 const express = require('express');
 const fileUpload = require('express-fileupload')
-const methodOverride = require('method-override') //To delete and update using Sequelize 
+const methodOverride = require('method-override') //To delete and update using Sequelize
 const flash = require('express-flash') //request for flash module of message
 const passport = require('passport')  //Passport for authentication
 
 const path = require('path');
+const {promisify} = require('es6-promisify');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
@@ -14,6 +15,8 @@ const routes = require('./routes');
 const Session = require('./models/session');
 const User = require('./models/user');
 const Product = require('./models/product');
+const errorHandlers = require('./util/errorhandler')
+const helpers = require('./util/helpers')
 
 require('./util/passport')
 
@@ -41,9 +44,10 @@ app.use(
   session({
     resave: true, // don't save session if unmodified
     saveUninitialized: true, // don't create session until something stored
-    // secret: true
+    // secret: true,
+     name: 'adefams_shop',
     secret: process.env.TOKEN_SECRET,
-    // store: sessionStore
+    store: sessionStore
   })
 );
 // Passport Middleware
@@ -53,37 +57,21 @@ app.use(passport.session());
 
 sessionStore.sync();
 
-function loggedOut(req, res, next) {
-  if (req.session && req.session.userId) {
-    return res.redirect('/dashboard');
-  }
-  return next();
-}
+// pass variables to our templates + all requests
+app.use((req, res, next) => {
+    res.locals.h = helpers
+    res.locals.flashes = req.flash()
+    res.locals.user = req.user || null
+    res.locals.products = req.products || []
+    res.locals.currentPath = req.path
+    next()
+});
 
-function requiresLogin(req, res, next) {
-  if (req.session && req.session.userId) {
-    return next();
-  }
-  const err = new Error('You must be logged in to view this page');
-  err.status = 401;
-  return next(err);
-}
-
-// Make userId available in templates
-  // app.use(function(req, res, next) {
-  //   res.locals.currentUser = req.session.userId;
-  //   next();
-  // });
-
-// Make userId available in templates
-    // app.use(async function(req, res, next) {
-    //   if (req.session && req.session.userId) {
-    //     // populate the user field
-    //     const userData = await User.findOne({ where: { id: req.session.userId } });
-    //     res.locals.user = userData;
-    //     next();
-    //   }
-    // });
+// promisify some callback based APIs
+app.use((req, res, next) => {
+	req.logIn = promisify(req.logIn, req)
+	next()
+})
 
 // public configuration
 const publicPath = path.join(__dirname, 'public');
@@ -93,7 +81,7 @@ app.use(express.static(publicPath));
 app.use(fileUpload()); // configure fileupload
 
 // MethodOverride Middleware for delete route
-app.use(methodOverride('_method')) 
+app.use(methodOverride('_method'))
 
 // view configuration
 app.engine('ejs', require('ejs').__express);
@@ -111,6 +99,24 @@ app.get('*', (req, res) => {
   // req.flash('error: No Page found')
   res.send(req.flash('Error: No such page found, please check ur URL'))
 })
+
+// If that above routes didnt work, we 404 them and forward to error handler
+app.use(errorHandlers.notFound)
+
+// One of our error handlers will see if these errors are just validation errors
+app.use(errorHandlers.flashValidationErrors)
+
+// Otherwise this was a really bad error we didn't expect! Shoot eh
+if (app.get('env') === 'development') {
+	/* Development Error Handler - Prints stack trace */
+	app.use(errorHandlers.developmentErrors)
+}
+
+// production error handler
+app.use(errorHandlers.productionErrors)
+
+// done! we export it so we can start the site in start.js
+module.exports = app
 
 // error handler
 
