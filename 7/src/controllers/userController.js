@@ -3,8 +3,8 @@ const User = require('../models/user');
 const product = require('../models/product');
 const { hash } = require('../util/helpers');
 const { send } = require('../util/mail');
-const popup = require('node-popup');
-const popup2 = require('node-popup/dist/cjs.js');
+// const popup = require('node-popup');
+// const popup2 = require('node-popup/dist/cjs.js');
 // const User = require('../models/user');
 const { promisify } = require('util')
 const passport = require('passport');
@@ -17,28 +17,9 @@ exports.homePage = (req, res) => {
 //   res.send('myproduct');
 // };
 
-// exports.register = async (req, res,  next) => {
-//   const [firstName, lastName] = req.body.name.split(' ');
-//   const { password, password2, email, phone } = req.body;
-
-    // const createdUser = await User.create({
-    //     firstName,
-    //     lastName,
-    //     email,
-    //     phone,
-    //     username: firstName
-    // })
-
-    // console.log(user.register.toString())
-
-    // const register = promisify(User.register);
-    // const result = await register({
-    //     firstName,
-    //     lastName,
-    //     email,
-    //     phone,
-    //     username: firstName
-    // }, password)
+exports.register = async (req, res,  next) => {
+  const [firstName, lastName] = req.body.name.split(' ');
+  const { password, password2, email, phone } = req.body;
 
     User.register({
         firstName,
@@ -48,6 +29,7 @@ exports.homePage = (req, res) => {
         username: firstName
     }, password, (err, user) => {
         if (err) {
+          console.log(err.message);
             res.redirect('/register')
         }
             // console.log(user)
@@ -68,24 +50,10 @@ exports.homePage = (req, res) => {
       });
     })(req, res, next);
   }
-    })
+    })     
+}
 
-        //   User.create({
-        //     firstName,
-        //     lastName,
-        //     email,
-        //     phone,
-        //     password
-        // })
-        // .then(function(user) {
-        //     // passport.authenticate('local')(req, res, function () {
-        //     //   res.redirect('/');
-        //     // });
-        //     next()
-        // });
-
-// }
-
+/*
 exports.register = async (req, res) => {
   try {
     // console.log(req.body);
@@ -178,7 +146,8 @@ exports.register = async (req, res) => {
     console.log(error.message);
     res.send('Error: Email did not sent');
   }
-};
+}; 
+*/
 
  
 exports.dashboard = (req, res) => {

@@ -60,12 +60,12 @@ passport.authenticate('local', function(err, user, info) {
   //
   req.session.save(res.redirect('/dashboard'));
 };
- 
+*/ 
 
 // Logout Handle
 exports.logout = (req, res) => {
     console.log('logged out')
-  req.logout();
+  req.logOut();
   req.flash('success', 'You are logged out');
   res.redirect('/login')
 }
@@ -78,4 +78,3 @@ exports.isLoggedIn = (req, res, next) => {
     req.flash('error', 'Oops you must be logged in to do that!')
     res.redirect('/login')
 }
-*/

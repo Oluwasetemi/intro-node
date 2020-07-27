@@ -35,7 +35,7 @@ router.get('/register', userController.homePage);
 router.get('/products',  authController.isLoggedIn, productController.productPage);
 
 router.get('/dashboard',  authController.isLoggedIn, productController.getProduct);
-router.get('/dashboard/page/:pageNumber',  productController.getProduct); //Product Route With Pagination
+router.get('/dashboard/page/:pageNumber', authController.isLoggedIn,  productController.getProduct); //Product Route With Pagination
 
 // Get product based on product Id
 router.get('/product/:productId', authController.isLoggedIn,productController.viewProductPage);
@@ -45,11 +45,11 @@ router.post('/products', authController.isLoggedIn, productController.product);
 
 // Update Product
 // router.put('/product/:productId', productController.editProduct);
-router.post('/product/:productId', productController.editProduct);
+router.post('/product/:productId', authController.isLoggedIn, productController.editProduct);
 
 
 // Delete Product
-router.delete('/product/:productId', ensureAuthenticated, productController.deleteProduct);
+router.delete('/product/:productId', productController.deleteProduct);
 
 // Display Product
 router.get('/', productController.getProduct);

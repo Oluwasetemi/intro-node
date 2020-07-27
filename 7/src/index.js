@@ -33,7 +33,7 @@ app.use(express.json());
 // req.cookies and req.signedCookies
 // when the secret is passed, used
 // for signing the cookies.
-app.use(cookieParser(process.env.TOKEN_SECRET));
+// app.use(cookieParser(process.env.TOKEN_SECRET));
 
 const sessionStore = new SequelizeStore({
   db: sequelize
@@ -117,8 +117,6 @@ app.use(errorHandlers.productionErrors)
 
 // done! we export it so we can start the site in start.js
 module.exports = app
-
-// error handler
 
 app.listen(process.env.PORT || 3000, () => {
   console.log(
