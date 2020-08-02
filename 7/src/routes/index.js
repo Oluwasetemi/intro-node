@@ -15,17 +15,17 @@ router.get('/card', (req, res) => {
 });
 
 // Display home Page
-// router.get('/', (req, res) => {
-//   // console.log(req.session);
-//   // if (req.session.id && req.session.userId) {
-//   //   return res.redirect('dashboard');
-//   // }
+router.get('/', (req, res) => {
+  // console.log(req.session);
+  // if (req.session.id && req.session.userId) {
+  //   return res.redirect('dashboard');
+  // }
 
-//   // req.flash('success', 'Welcome to Home Page Flash');
+  // req.flash('success', 'Welcome to Home Page Flash');
 
-//   //  render to views/home.ejs
-//   return res.render('home');
-// });
+  //  render to views/home.ejs
+  return res.render('home');
+});
 
 router.get('/register', userController.homePage);
 
@@ -55,6 +55,9 @@ router.get(
   productController.viewProductPage
 );
 
+// Display Product
+router.get('/product', productController.getProduct);
+
 // Create Product
 router.post('/products', authController.isLoggedIn, productController.product);
 
@@ -69,8 +72,6 @@ router.post(
 // Delete Product
 router.delete('/product/:productId', productController.deleteProduct);
 
-// Display Product
-router.get('/', productController.getProduct);
 
 router.post('/register', userController.register, authController.login);
 

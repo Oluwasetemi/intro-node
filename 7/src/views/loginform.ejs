@@ -1,45 +1,45 @@
 <%- include ("partials/header.ejs") %>
 
 <style>
-	div.input {
-		display: block;
-	}
+  div.input {
+    display: block;
+  }
 </style>
 
 <div class="wrapper">
-	<h2>Login here</h2>
-	<form action="/login" method="POST">
-		<div class="input">
-			<label for="email">Email:</label>
-			<input
-				type="email"
-				name="email"
-				id="email"
-				placeholder="Enter your email"
-				required
-			/>
-		</div>
-		<div class="input">
-			<label for="password">Password:</label>
-			<input
-				type="password"
-				name="password"
-				id="password"
-				placeholder="Enter a password"
-				required
-			/>
-		</div>
-		<div class="input">
-			<!-- <input type="button" value="submit ->"> -->
-			<button type="submit">Submit</button>
-		</div>
-	</form>
-	<div>
-		<h3><a href="/register">Sign up here</a></h3>
-	</div>
-	<div>
-		<h3><a href="/passwordresetemail">Forget Password</a></h3>
-	</div>
+  <h2>Login here</h2>
+  <form action="/login" method="POST">
+    <div class="input">
+      <label for="email">Email:</label>
+      <input
+        type="email"
+        name="email"
+        id="email"
+        placeholder="Enter your email"
+        required
+      />
+    </div>
+    <div class="input">
+      <label for="password">Password:</label>
+      <input
+        type="password"
+        name="password"
+        id="password"
+        placeholder="Enter a password"
+        required
+      />
+    </div>
+    <div class="input">
+      <!-- <input type="button" value="submit ->"> -->
+      <button type="submit">Submit</button>
+    </div>
+  </form>
+  <div>
+    <h3><a href="/register">Sign up here</a></h3>
+  </div>
+  <div>
+    <h3><a href="/passwordresetemail">Forget Password</a></h3>
+  </div>
 </div>
 
 <%- include ("partials/footer.ejs") %>
