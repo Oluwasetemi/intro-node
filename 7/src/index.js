@@ -33,7 +33,7 @@ app.use(express.json());
 // req.cookies and req.signedCookies
 // when the secret is passed, used
 // for signing the cookies.
-// app.use(cookieParser(process.env.TOKEN_SECRET));
+app.use(cookieParser());
 
 const sessionStore = new SequelizeStore({
   db: sequelize,
@@ -42,9 +42,9 @@ const sessionStore = new SequelizeStore({
 // Populates req.session
 app.use(
   session({
-    resave: true, // don't save session if unmodified
-    saveUninitialized: true, // don't create session until something stored
-    // secret: true,
+    resave: false, // don't save session if unmodified
+    saveUninitialized: false, // don't create session until something stored
+    key: process.env.KEY,
     name: 'adefams_shop',
     secret: process.env.TOKEN_SECRET,
     store: sessionStore,

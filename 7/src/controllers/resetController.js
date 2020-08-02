@@ -11,12 +11,13 @@ exports.reset = async (req, res) => {
   // check if email exist
   // console.log(req.body.email);
   const userExist = await User.findOne({ where: { email: req.body.email } });
-  const username = req.user.dataValues.email;
-  // console.log(username);
+  console.log(userExist);
   if (!userExist) {
     req.flash('error', `User does not exist`);
     return res.render('forgetPassword.ejs');
   }
+  const username = userExist.dataValues.email;
+  console.log(username);
   User.setResetPasswordKey(username, async function(err, updatedUser) {
     if (err) {
       return res.send(err.message);
@@ -29,7 +30,7 @@ exports.reset = async (req, res) => {
     //  console.log(req.user.dataValues.resetPasswordKey);
     //  console.log(setUrl);
 
-    const { resetPasswordKey } = req.user.dataValues;
+    // const { resetPasswordKey } = req.user.dataValues;
     //  const updateUser = await User.update({
     //   // lastName: "Doe",
     //   resetPasswordKey

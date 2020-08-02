@@ -1,6 +1,6 @@
+const passport = require('passport');
 const User = require('../models/user');
 const { match } = require('../util/helpers');
-const passport = require('passport');
 
 exports.loginForm = (req, res) => {
   res.render('loginform');
@@ -24,10 +24,12 @@ exports.login = (req, res, next) => {
 
   passport.authenticate('local', function(err, user, info) {
     if (err) {
-      return next(err);
+      return next('Password Error', err);
     }
     if (!user) {
-      return res.json({ status: 'error', message: info.message });
+      req.flash('error', 'Your Username or Password is incorrect');
+      return res.render('loginform');
+      // return res.json({ status: 'error', message: info.message });
     }
     req.logIn(user, function(err) {
       if (err) {
@@ -70,7 +72,7 @@ exports.login = (req, res, next) => {
 
 // Logout Handle
 exports.logout = (req, res) => {
-  console.log('logged out');
+  // console.log('logged out');
   req.logOut();
   req.flash('success', 'You are logged out');
   res.redirect('/login');
