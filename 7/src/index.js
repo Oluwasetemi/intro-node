@@ -1,8 +1,9 @@
 require('dotenv').config({ path: 'variables.env' });
 const express = require('express');
-const fileUpload = require('express-fileupload');
+const fileUpload = require('express-fileupload'); // To upload Images
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
+
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 const methodOverride = require('method-override'); // To delete and update using Sequelize
 const flash = require('express-flash'); // request for flash module of message
@@ -12,7 +13,7 @@ const path = require('path');
 const { promisify } = require('es6-promisify');
 const { sequelize } = require('./db');
 const routes = require('./routes');
-const Session = require('./models/session');
+// const Session = require('./models/session');
 const User = require('./models/user');
 const Product = require('./models/product');
 const errorHandlers = require('./util/errorhandler');
@@ -38,31 +39,35 @@ app.use(cookieParser());
 const sessionStore = new SequelizeStore({
   db: sequelize,
 });
-
 // Populates req.session
 app.use(
   session({
-    resave: false, // don't save session if unmodified
-    saveUninitialized: false, // don't create session until something stored
-    key: process.env.KEY,
-    name: 'adefams_shop',
     secret: process.env.TOKEN_SECRET,
     store: sessionStore,
+    resave: false, // don't save session if unmodified
+    saveUninitialized: false, // don't create session until something stored
+    key: 'adefams_shop',
+    // name: 'adefams_shop',
   })
 );
+sessionStore.sync();
 // Passport Middleware
 app.use(passport.initialize());
 app.use(passport.session());
 
-sessionStore.sync();
-
 // pass variables to our templates + all requests
 app.use((req, res, next) => {
+  console.log(req.cookies.process.env.KEY);
   res.locals.h = helpers;
   res.locals.flashes = req.flash();
   res.locals.user = req.user || null;
   res.locals.products = req.products || [];
   res.locals.currentPath = req.path;
+
+  if (req.cookies.adefams_shop && !req.session.passport) {
+    res.clearCookie('adefams_shop');
+  }
+
   next();
 });
 

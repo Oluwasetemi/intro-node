@@ -1,16 +1,18 @@
 const fs = require('fs');
 /* eslint-disable no-shadow */
 const product = require('../models/product');
-// const { hash } = require('../util/helpers');
-// const { send } = require('../util/mail');
 
 exports.productPage = (req, res) => {
-  res.render('product.ejs');
+  const { user } = res.locals;
+  res.render('product.ejs', {
+    users: user,
+  });
 };
 
 // Create Product and redirect to Dashboard using Sequelize
 exports.product = async (req, res) => {
   try {
+    const { user } = res.locals;
     if (!req.files) {
       req.flash('error', 'No files were uploaded');
       return res.status(400).send('No files were uploaded.');
@@ -31,8 +33,8 @@ exports.product = async (req, res) => {
     const fileExtension = uploadedFile.mimetype.split('/')[1];
     image = `${productId}.${fileExtension}`;
 
-    console.log('Images:', image);
-    console.log(uploadedFile.mimetype);
+    // console.log('Images:', image);
+    // console.log(uploadedFile.mimetype);
 
     if (
       uploadedFile.mimetype === 'image/png' ||
@@ -56,7 +58,7 @@ exports.product = async (req, res) => {
           image,
         });
 
-        console.log(createdProduct);
+        // console.log(createdProduct);
 
         if (!createdProduct) {
           req.flash('error', 'Product Could not be Created');
@@ -70,11 +72,13 @@ exports.product = async (req, res) => {
           // });
 
           const productDetail = await product.findAll();
-
-          console.log(productDetail);
+          // const { user } = res.locals;
+          console.log(res.locals.product);
           req.flash('success', 'Product Created successfully');
           return res.render('home.ejs', {
-            firstName: 'adefam',
+            users: user,
+            firstName: req.user.firstName,
+            ...res.locals.products.dataValues,
             productDetail,
           });
         }
@@ -84,18 +88,15 @@ exports.product = async (req, res) => {
         'error',
         "Invalid File format. Only 'gif', 'jpeg' and 'png' images are allowed."
       );
-      return res.render('product.ejs');
+      return res.render('product.ejs', {
+        users: user,
+      });
     }
   } catch (error) {
     console.log(error.message);
     res.send('Error: Email did not sent');
   }
 };
-
-// exports.dashboard = (req, res) => {
-//   const { product } = res.locals;
-//   res.render('dashboard', { firstName: product.firstName });
-// };
 
 // Fetch for all product and pass it to dashboard page
 exports.getProduct = async (req, res) => {
@@ -104,6 +105,9 @@ exports.getProduct = async (req, res) => {
     const limit = 5;
     const skip = page * limit - limit;
     const totalCount = product.count({});
+    const { user } = res.locals;
+
+    // console.log(req.user.firstName);
 
     const productDetail = product.findAll({
       offset: skip,
@@ -125,21 +129,23 @@ exports.getProduct = async (req, res) => {
         `You requested for page ${page}, but that doesn't exist so I will put you on page ${pages}`
       );
       res.render('dashboard.ejs', {
-        firstName: 'adefam',
+        firstName: req.user.firstName,
         productDetail: productData,
         total,
         page,
         pages,
+        users: user,
       }); // Pass FirstName and produdctDetail to the dashboard
       return;
     }
     // execute query
     res.render('dashboard.ejs', {
-      firstName: 'adefam',
+      firstName: req.user.firstName,
       productDetail: productData,
       total,
       page,
       pages,
+      users: user,
     }); // Pass FirstName and produdctDetail to the dashboard
   } catch (error) {
     console.log(error.message);
@@ -150,7 +156,7 @@ exports.getProduct = async (req, res) => {
 exports.viewProductPage = async (req, res) => {
   try {
     const { productId } = req.params; // Get product Id from the database
-
+    const { user } = res.locals;
     if (!productId) {
       res.send('Error. You must pass a product Id');
     }
@@ -169,6 +175,7 @@ exports.viewProductPage = async (req, res) => {
     res.render('viewProductPage.ejs', {
       productId,
       product: proDetails,
+      users: user,
       // ,message: ''
     });
   } catch (error) {
@@ -179,6 +186,7 @@ exports.viewProductPage = async (req, res) => {
 // Update fetched product
 exports.editProduct = async (req, res) => {
   try {
+    const { user } = res.locals;
     if (!req.files) {
       const { productId } = req.params;
       const { productName } = req.body;
@@ -220,6 +228,7 @@ exports.editProduct = async (req, res) => {
       req.flash('success', 'Record Updated Successfully');
       res.render('viewProductPage.ejs', {
         product: proDetails,
+        users: user,
         // message: ''
       });
     } else {
@@ -233,15 +242,9 @@ exports.editProduct = async (req, res) => {
 
       let image = uploadedFile.name;
 
-      console.log(uploadedFile.mimetype);
-
       const fileExtension = uploadedFile.mimetype.split('/')[1];
-      console.log(fileExtension);
 
       image = `${productId}.${fileExtension}`;
-
-      console.log('Images:', image);
-      console.log(uploadedFile.mimetype);
 
       if (
         uploadedFile.mimetype === 'image/png' ||
@@ -273,9 +276,7 @@ exports.editProduct = async (req, res) => {
             }
           );
 
-          console.log(updateProduct);
-
-          if (!updateProduct) {
+         if (!updateProduct) {
             res.send("Error: Product can't be Updated");
           }
 
@@ -288,6 +289,7 @@ exports.editProduct = async (req, res) => {
           req.flash('success', 'Record Updated Successfully');
           res.render('viewProductPage.ejs', {
             product: proDetails,
+            users: user,
             // message: ''
           });
         });
@@ -296,7 +298,10 @@ exports.editProduct = async (req, res) => {
           'error',
           "Invalid File format. Only 'gif', 'jpeg' and 'png' images are allowed."
         );
-        return res.render('viewProductPage.ejs');
+        return res.render('viewProductPage.ejs', {
+          users: user,
+          // product: proDetails,
+        });
       }
     }
   } catch (error) {
@@ -307,7 +312,7 @@ exports.editProduct = async (req, res) => {
 // Delete Product from database
 exports.deleteProduct = async (req, res) => {
   try {
-    productId = req.params.productId;
+    const productId = req.params.productId;
 
     console.log(productId);
     if (!productId) {
@@ -349,9 +354,10 @@ exports.deleteProduct = async (req, res) => {
 exports.displayProduct = async (req, res) => {
   try {
     const page = req.params.pageNumber || 1;
-    const limit = 10;
+    const limit = 8;
     const skip = page * limit - limit;
     const totalCount = product.count({});
+    const { user } = res.locals;
 
     const productDetail = product.findAll({
       offset: skip,
@@ -373,11 +379,12 @@ exports.displayProduct = async (req, res) => {
     }
     // execute query
     res.render('display.ejs', {
-      firstName: 'adefam',
+      // firstName: 'adefam',
       productDetail: productData,
       total,
       page,
       pages,
+      users: user,
     }); // Pass FirstName and produdctDetail to the dashboard
   } catch (error) {
     console.log(error.message);

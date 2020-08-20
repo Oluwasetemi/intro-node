@@ -7,7 +7,7 @@ const authController = require('../controllers/authController');
 const productController = require('../controllers/productController');
 const resetController = require('../controllers/resetController');
 
-const { ensureAuthenticated } = require('../config/auth');
+// const { ensureAuthenticated } = require('../config/auth');
 
 // Testing Card Style sheet
 router.get('/card', (req, res) => {
@@ -15,17 +15,21 @@ router.get('/card', (req, res) => {
 });
 
 // Display home Page
-router.get('/', (req, res) => {
+router.get('/', authController.sessionChecker, (req, res) => {
   // console.log(req.session);
-  // if (req.session.id && req.session.userId) {
-  //   return res.redirect('dashboard');
-  // }
-
   // req.flash('success', 'Welcome to Home Page Flash');
-
   //  render to views/home.ejs
-  return res.render('home');
+  const { user } = res.locals;
+  // console.log(res.locals);
+  // console.log(user.firstName);
+  // console.log(req.isAuthenticated());
+
+  return res.render('home', {
+    users: user,
+  });
 });
+// router.get('/', productController.displayProduct);
+
 
 router.get('/register', userController.homePage);
 
@@ -70,7 +74,12 @@ router.post(
 );
 
 // Delete Product
-router.delete('/product/:productId', productController.deleteProduct);
+router.delete(
+  '/product/:productId',
+  authController.isLoggedIn,
+  authController.isAuthurized,
+  productController.deleteProduct
+);
 
 
 router.post('/register', userController.register, authController.login);
@@ -92,6 +101,7 @@ router.get(
   '/resetpassword/:resetPasswordKey',
   resetController.confirmPasswordReset
 );
+
 router.post('/resetpassword/:resetPasswordKey', resetController.resetPassword);
 
 module.exports = router;

@@ -5,32 +5,40 @@ const User = require('../models/user');
 const product = require('../models/product');
 const { hash } = require('../util/helpers');
 const { send } = require('../util/mail');
-// const popup = require('node-popup');
-// const popup2 = require('node-popup/dist/cjs.js');
-// const User = require('../models/user');
+
 
 exports.homePage = (req, res) => {
-  res.render('register.ejs');
+  const { user } = res.locals;
+  res.render('register.ejs', {
+    users: user,
+  });
 };
 
 exports.register = async (req, res, next) => {
   const [firstName, lastName] = req.body.name.split(' ');
   const { password, password2, email, phone } = req.body;
+  const { user } = res.locals;
 
-  const checkUser = await User.findOne({ where: { email: email } }); // To check if the user exist
+  const checkUser = await User.findOne({ where: { email } }); // To check if the user exist
   if (checkUser) {
     req.flash('error', 'User is already registered');
-    return res.render('register.ejs');
+    return res.render('register.ejs', {
+      users: user,
+    });
   }
 
   if (password !== password2) {
     req.flash('error', 'Password do not match');
-    return res.render('register.ejs');
+    return res.render('register.ejs', {
+      users: user,
+    });
   }
   if (password.length < 8) {
     // Check password length
     req.flash('error', 'Password should be at least 8 characters');
-    return res.render('register.ejs');
+    return res.render('register.ejs', {
+      users: user,
+    });
   }
 
   User.register(
@@ -61,12 +69,12 @@ exports.register = async (req, res, next) => {
             if (err) {
               return next(err);
             }
-            req.flash('success', `User registered successfully`);
-            req.flash('success', `User logged in successfully`);
+            req.flash('success', `User registered and login successfully`);
             return res.render('dashboard', {
               firstName: user.dataValues.firstName,
-              // ...res.locals.user.dataValues,
+              // ...res.locals.products.dataValues,
               productDetail: res.locals.products,
+              users: user,
             });
           });
         })(req, res, next);
@@ -77,5 +85,6 @@ exports.register = async (req, res, next) => {
 
 exports.dashboard = (req, res) => {
   const { user } = res.locals;
-  res.render('dashboard', { firstName: user.firstName });
+  console.log('dashboard');
+  res.render('dashboard', { firstName: user.firstName, users: user });
 };

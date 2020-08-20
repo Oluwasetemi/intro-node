@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
+const passportLocalSequelize = require('passport-local-sequelize');
 const bcrypt = require('bcryptjs');
 const { sequelize } = require('../db');
-const passportLocalSequelize = require('passport-local-sequelize')
 
 // const { Model } = Sequelize;
 
@@ -30,15 +30,15 @@ const User = passportLocalSequelize.defineUser(sequelize, {
     status: {
       type: Sequelize.ENUM,
       values: ['active', 'pending', 'deleted'],
-      defaultValue: 'active'
+      defaultValue: 'active',
     },
     type: {
       type: Sequelize.ENUM,
       values: ['admin', 'user', 'super'],
-      defaultValue: 'user'
+      defaultValue: 'user',
     }
 }, {
-    usernameField: 'email'
+    usernameField: 'email',
 })
 
 // User.init(

@@ -6,19 +6,19 @@ const Session = sequelize.define(
   {
     sid: {
       type: Sequelize.STRING,
-      primaryKey: true
+      primaryKey: true,
     },
     userId: Sequelize.STRING,
     expires: Sequelize.DATE,
-    data: Sequelize.STRING(500)
+    data: Sequelize.STRING(500),
   },
   {
-    modelName: 'Session'
+    modelName: 'Session',
   }
 );
 
 const init = async () => {
-  await Session.sync({ force: true }); // force true will drop the table if it already exists
+  await Session.sync();
   console.log('Session Tables have synced!');
 };
 

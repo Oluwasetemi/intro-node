@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="/stylesheets/main.css" />
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" /> -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/css/style.css" />
+    <script type="text/javaScript" src="/js/index.js"></script>
+    <!-- <script type="text/javaScript" src="/js/index2.js"></script> -->
+
+
+    <title>Welcome to Adefam Inventory App</title>
+</head>
+<style>
+    .table-wrapper {
+        margin-top: 50px;
+    }
+
+    .product-img {
+        width: 40px;
+        height: 40px;
+    }
+
+    .add-player-form {
+        margin-top: 50px;
+    }
+
+    .center {
+        /* position: relative; */
+        padding-left: auto !important;
+        padding-right: auto !important;
+        /* align-content:center !important; */
+    }
+</style>
+
+<body>
+    <nav class="nav mycard justify-content-center">
+        <a class="navbar-brand" href="/">
+            <img src="#" width="30" height="30" class="d-inline-block align-top" alt="">
+            Welcome to ADEFAM openShop
+        </a>
+    </nav>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar"
+            aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-center" id="navbar">
+            <ul class="navbar-nav my-2">
+                <li class="nav-item active">
+                    <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/login">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/register">Create Account</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Contact</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <% if (messages.success) { %>
+        <div class="alert alert-success" role="alert"><%- messages.success %></div>
+        <% } %>
+
+        <% if (messages.error) { %>
+        <div class="alert alert-danger" role="alert"><%- messages.error %></div>
+        <% } %>
+    </div>
+    <!-- <a href="/">
+			<h1>Welcome to Adefam Shops</h1>
+		</a> -->
+
+
+
+</body>
+
+</html>

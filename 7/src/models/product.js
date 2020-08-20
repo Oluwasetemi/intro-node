@@ -10,51 +10,45 @@ Product.init(
     // attributes
     productId: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: false,
       },
     productName: {
       type: Sequelize.STRING,
-      allowNull: false
+      allowNull: false,
     },
     quantity: {
-      type: Sequelize.STRING
+      type: Sequelize.STRING,
       // allowNull defaults to true
     },
     barcode: {
-      type: Sequelize.STRING
+      type: Sequelize.STRING,
       // allowNull defaults to true
     },
     userId: {
-      type: Sequelize.STRING
+      type: Sequelize.STRING,
       // allowNull defaults to true
     },
     description: {
-      type: Sequelize.STRING
+      type: Sequelize.STRING,
       // allowNull defaults to true
     },
     image: {
-      type: Sequelize.STRING
+      type: Sequelize.STRING,
       // allowNull defaults to true
-    }
+    },
   },
   {
     sequelize,
-    modelName: 'Product'
+    modelName: 'Product',
     // optionsb 
-  },
-
-  // {
-  //   tableName: 'product'
-  // }
-
+  }
 );
 
 const init = async () => {
-    await Product.sync(); // force true will drop the table if it already exists
-    console.log('Product Tables have synced!');
-  };
+  await Product.sync(); // force true will drop the table if it already exists
+  console.log('Product Tables have synced!');
+};
 
-  init()
-  
- 
+init();
+
 module.exports = Product;
