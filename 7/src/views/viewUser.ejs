@@ -1,0 +1,112 @@
+<%- include ("partials/dashboardheader.ejs") %>
+
+<style>
+    div.input {
+        display: block;
+    }
+</style>
+<section class="overview-section p-3 p-lg-5">
+    <div class="wrapper container">
+        <div class="card card-body">
+            <h2 class="text-center">All Users Details</h2>
+
+            <% if (user.length > 0 && users.type === 'admin') { %>
+                <table class="table table-hovered table-responsive">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Username</th>
+                            <th scope="col">First Name</th>
+                            <th scope="col">Last Name</th>
+                            <th scope="col">Phone</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Type</th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% user.forEach((usars, index) => { %>
+                        <tr>
+                            <th scope="row"><%= usars.id %></th>
+                            <td><a href="/user/<%= usars.username %>" target="_self" rel="noopener"><%= usars.username %></a></td>
+                            <td><%= usars.firstName %></td>
+                            <td><%= usars.lastName %></td>
+                            <td><%= usars.phone %></td>
+                            <td><%= usars.status %></td>
+                            <td><%= usars.type %></td>
+                            <td>
+                                <form action="/delete/<%= usars.username %>?_method=delete" method="POST">
+                                    <button class="btn btn-danger" type="submit" onclick="deleteUser()">X</button>
+                                </form>
+                            </td>
+                        </tr>
+                        <% }) %>
+                    </tbody>
+                    </table>
+
+            <% } else if (users) { %>
+                <div class="row">
+                    <div class="col-md-6 col-6">
+                        <button class="float-right btn btn-info" type="submit" onclick="editUser()">Update User</button>
+                    </div>
+                    <div class="col-md-6 col-6">
+                        <form action="/user/<%= users.username %>?_method=delete" method="POST">
+                            <!-- <a href="/product/<%= users.productId %>">Delete</a> -->
+                            <button class="btn btn-danger" type="submit" onclick="deleteUser()">Delete</button>
+                        </form>
+                    </div>
+                </div>
+                <form action="/user/<%= users.username %>" method="POST" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="image-area mt-4 figure-img form-group">
+                            <img src="/userimg/<%= users.image %>" class="rounded shadow-sm mx-auto d-block"
+                                alt="<%= users.username %> Image">
+                            <label class="text-center image-text" for="image"><%= users.lastName %>
+                                <%= users.firstName %></label>
+                            <br />
+                            <input class="form-control" type="file" name="image" id="image" value="<%= users.image %>" disabled />
+                        </div>
+                    </div>
+                
+                    <div class="form-row">
+                
+                        <div class="form-group col-md-4">
+                            <label for="firstname">FirstName:</label>
+                            <input class="form-control" type="text" name="firstname" id="firstname" value="<%= users.firstName %>"
+                                disabled required />
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="lastname">LastName:</label>
+                            <input class="form-control" type="text" name="lastname" id="lastname" value="<%= users.lastName %>" disabled
+                                required />
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="email">Email:</label>
+                            <input class="form-control" type="text" name="email" id="email" value="<%= users.email %>" disabled
+                                required />
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="phone">Phone:</label>
+                            <input class="form-control" type="text" name="phone" id="phone" value="<%= users.phone %>" disabled
+                                required />
+                        </div>
+                        <div class="form-group col-md-4">
+                            <label for="username">UserName:</label>
+                            <input class="form-control" type="text" name="username" id="username" value="<%= users.username %>" disabled
+                                required />
+                        </div>
+                
+                        <div class="form-group col-md-12">
+                            <!-- <input type="button" value="submit ->"> -->
+                            <button class="btn btn-success float-right" type="submit" onclick="getUpdate()" id="getUpdated"
+                                style="display: none;">Save User</button>
+                        </div>
+                    </div>
+                </form>
+            <% } else { %>
+            <p class="input">User Not Found. Go <a href="/register">here</a> to create User.</p>
+            <% } %>
+        </div>
+    </div>
+</section>
+<%- include ("partials/footer.ejs") %>

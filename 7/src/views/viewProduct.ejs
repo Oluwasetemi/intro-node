@@ -1,0 +1,68 @@
+<%- include ("partials/dashboardheader.ejs") %>
+
+<style>
+    div.input {
+        display: block;
+    }
+</style>
+<section class="overview-section p-3 p-lg-5">
+    <div class="wrapper container">
+        <div class="card card-body">
+            <h2 class="text-center">All Product Details</h2>
+
+            <% if (productDetail.length > 0) { %>
+            <table class="table table-hovered table-responsive">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">ProductId</th>
+                        <th scope="col">Image</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Discount</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% productDetail.forEach((product, index) => { %>
+                    <tr>
+                        <th scope="row"><%= product.productId %></th>
+                        <td><img src="/img/<%= product.image %>" class="rounded-circle product-img" alt=""></td>
+                        <td><a href="/product/<%= product.productId %>" target="_self"
+                                rel="noopener"><%= product.productName %></a></td>
+                        <td><%= product.price %></td>
+                        <td><%= product.discount %></td>
+                        <!-- <td><%= product.image %></td> -->
+                        
+                        <td>
+                            <form action="/product/<%= product.productId %>?_method=delete" method="POST">
+                                <button class="btn btn-danger" type="submit" onclick="deleteProduct()">X</button>
+                            </form>
+                        </td>
+                    </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+                <% if (users.type === 'admin') { %>
+                    <div class="d-flex justify-content-center">
+                        <div class="p-2">
+                            <a href="/productByUser/page/<%= page - 1 %>" id="previous">Previous</a>
+                        </div>
+                        <div id="page" class="p-2"><%= page %></div>
+                        <div class="p-2">of</div>
+                        <div id="pages" class="p-2"><%= pages %></div>
+                        <div class="p-2">
+                            <a href="/productByUser/page/<%= Number(page) + Number(1) %>" id="next">Next</a>
+                        </div>
+                    </div>
+
+                <% } else { %>
+
+                <% } %>
+
+            <% } else { %>
+            <p class="input">Product Not Found. Go <a href="/products">here</a> to create Product.</p>
+            <% } %>
+        </div>
+    </div>
+</section>
+<%- include ("partials/footer.ejs") %>

@@ -1,69 +1,81 @@
-<%- include ("partials/header.ejs") %>
+<%- include ("partials/dashboardheader.ejs") %>
 
-<h1><%= firstName %>Successfully</h1>
-<h3><a href="/logout">Logout</a></h3>
-<h3><a href="/products">Add Product</a></h3>
-<a href="/">Click here to go back to the home page</a>
+<style>
+    div.input {
+        display: block;
+    }
+</style>
+<section class="overview-section p-3 p-lg-5">
 
-<div class="table-wrapper">
-    <% if (productDetail.length > 0) {%>
-    <table class="table table-hovered">
-        <thead class="">
-            <tr>
-                <th scope="col">Product ID</th>
-                <th scope="col">Product Name</th>
-                <th scope="col">Quantity</th>
-                <th scope="col">Barcode</th>
-                <th scope="col">User Id</th>
-                <th scope="col">Description</th>
-                <th scope="col">Image</th>
-            </tr>
-        </thead>
-        <tbody>
-            <% productDetail.forEach((product, index) => { %>
-            <tr>
-                <th scope="row"><%= product.productId %></th>
-                <td>
-                    <a href="/product/<%= product.productId %>"
-                        ><%= product.productName %></a
-                    >
-                </td>
-                <td><%= product.quantity %></td>
-                <td><%= product.barcode %></td>
-                <td>@<%= product.userId %></td>
-                <td><%= product.description %></td>
-                <td>
-                    <img
-                        src="/img/<%= product.image %>"
-                        class="rounded-circle product-img"
-                        alt=""
-                    />
-                </td>
-                <!-- <td>
-                            <a href="/edit/<%= product.productId %>" target="" rel="noopener">Edit</a>
-                            <a href="/delete/<%= product.productId %>">Delete</a>
-                        </td> -->
-            </tr>
+<div class="wrapper container">
+    <div class="card card-body">
+        <h2 class="text-center"><%= user.lastName %> <%= user.firstName %> Details</h2>
 
-            <% }) %>
-        </tbody>
-    </table>
-    <div class="d-flex justify-content-center">
-        <div class="p-2">
-            <a href="/dashboard/page/<%= page - 1 %>" id="previous">Previous</a>
+        <% if (user) { %>
+        <div class="row">
+            <div class="col-md-6 col-6">
+                <button class="float-right btn btn-info" type="submit" onclick="editUser()">Update User</button>
+            </div>
+            <div class="col-md-6 col-6">
+                <form action="/delete/<%= user.username %>?_method=delete" method="POST">
+                    <!-- <a href="/product/<%= users.productId %>">Delete</a> -->
+                    <button class="btn btn-danger" type="submit" onclick="deleteUser()">Delete</button>
+                </form>
+            </div>
         </div>
-        <div id="page" class="p-2"><%= page %></div>
-        <div class="p-2">of</div>
-        <div id="pages" class="p-2"><%= pages %></div>
-        <div class="p-2">
-            <a href="/dashboard/page/<%= Number(page) + Number(1) %>" id="next"
-                >Next</a
-            >
-        </div>
+        <form action="/user/<%= user.username %>" method="POST" enctype="multipart/form-data">
+            <div class="row">
+                <div class="image-area mt-4 figure-img form-group">
+                    <img src="/userimg/<%= user.image %>" class="rounded shadow-sm mx-auto d-block"
+                        alt="<%= user.username %> Image">
+                    <label class="text-center image-text" for="image"><%= user.lastName %> <%= user.firstName %></label>
+                    <br />
+                    <input class="form-control" type="file" name="image" id="image" value="<%= user.image %>"
+                        disabled />
+                </div>
+            </div>
+
+            <div class="form-row">
+
+                <div class="form-group col-md-4">
+                    <label for="firstName">FirstName:</label>
+                    <input class="form-control" type="text" name="firstName" id="firstName"
+                        value="<%= user.firstName %>" disabled required />
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="lastName">LastName:</label>
+                    <input class="form-control" type="text" name="lastName" id="lastName"
+                        value="<%= user.lastName %>" disabled required />
+                </div>
+                <!-- <div class="form-group col-md-4">
+                    <label for="email">Email:</label>
+                    <input class="form-control" type="text" name="email" id="email"
+                        value="<%= user.email %>" disabled required />
+                </div> -->
+                <div class="form-group col-md-4">
+                    <label for="phone">Phone:</label>
+                    <input class="form-control" type="text" name="phone" id="phone" value="<%= user.phone %>"
+                        disabled required />
+                </div>
+                <div class="form-group col-md-4">
+                    <label for="username">UserName:</label>
+                    <input class="form-control" type="text" name="username" id="username" value="<%= user.username %>"
+                        disabled required />
+                </div>
+                
+                <div class="form-group col-md-12">
+                    <!-- <input type="button" value="submit ->"> -->
+                    <button class="btn btn-success float-right" type="submit" onclick="getUpdate()" id="getUpdated"
+                        style="display: none;">Save User</button>
+                </div>
+            </div>
+        </form>
+
+        <% } else { %>
+        <p class="input">User Not Found. Go <a href="/register">here</a> to create User.</p>
+        <% } %>
     </div>
-    <% } else { %>
-    <p>No product found. Go <a href="/products">here</a> to add product.</p>
-    <% } %>
 </div>
 
+</section>
 <%- include ("partials/footer.ejs") %>

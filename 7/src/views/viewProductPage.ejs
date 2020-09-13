@@ -1,12 +1,12 @@
-<%- include ("partials/header.ejs") %>
+<%- include ("partials/dashboardheader.ejs") %>
 
 
-<h2>Update <%= product.productId %> Product Details</h2>
+<!-- <h2>Update <%= product.productId %> Product Details</h2> -->
 
-<pre>
+<!-- <pre>
   <%=  JSON.stringify(product) %>
   <%= product.productName %>
-</pre>
+</pre> -->
 
 <style>
 	div.input {
@@ -46,27 +46,57 @@
 				<label for="productId">Product Id:</label>
 				<input class="form-control" type="text" name="productId" id="productId" value="<%= product.productId %>" disabled required />
 			</div>
+
 			<div class="form-group col-md-4">
 				<label for="productName">Product Name:</label>
 				<input class="form-control" type="text" name="productName" id="productName" value="<%= product.productName %>" disabled
 					required />
 			</div>
+
 			<div class="form-group col-md-4">
-				<label for="quantity">Quantity:</label>
-				<input class="form-control" type="text" name="quantity" id="quantity" value="<%= product.quantity %>" disabled required />
+				<label for="location">Location:</label>
+				<input class="form-control" type="text" name="location" id="location" value="<%= product.location %>" disabled required />
 			</div>
+
 			<div class="form-group col-md-4">
-				<label for="barcode">BarCode:</label>
-				<input class="form-control" type="text" name="barcode" id="barcode" value="<%= product.barcode %>" disabled required />
+				<label for="location">Categories:</label>
+				<select id="categories" name="categories" class="form-control" required disabled>
+					<option selected><%= product.categories %></option>
+					<option>Vehicles</option>
+					<option>Property</option>
+					<option>Phones & Tablet</option>
+					<option>Electronics</option>
+					<option>Computers</option>
+					<option>Accessories</option>
+					<option>Furnitur & Appliance</option>
+					<option>Home Equipments</option>
+					<option>Building Materials</option>
+					<option>Fashion & Beauty</option>
+					<option>Health</option>
+					<option>Sports, Arts & Outdoors</option>
+					<option>Babies & Kids</option>
+					<option>Animals & Pets</option>
+					<option>Agriculture & Food</option>
+					<option>Office Tools</option>
+					<option>Others</option>
+				</select>
 			</div>
+
+			<div class="form-group col-md-4">
+				<label for="price">Price:</label>
+				<input class="form-control" type="text" name="price" id="price" value="<%= product.price %>" disabled required />
+			</div>
+
+			<div class="form-group col-md-4">
+				<label for="discount">Discount:</label>
+				<input class="form-control" type="number" min="0" max="100" name="discount" id="discount" value="<%= product.discount %>" disabled required />
+			</div>
+
 			<div class="form-group col-md-4">
 				<label for="userId">User Id:</label>
 				<input class="form-control" type="text" name="userId" id="userId" value="<%= product.userId %>" disabled required />
 			</div>
-			<!-- <div class="form-group col-md-4">
-				<label for="image"><%= product.productName %></label>
-				<input type="file" name="image" id="image" value="<%= product.image %>" disabled />
-			</div> -->
+			
 			<div class="form-group col-md-4">
 				<label for="description">Product Description:</label>
 				<textarea class="form-control" type="text" name="description" id="description" disabled
@@ -74,6 +104,7 @@
 				<!-- <input type="text" name="description" id="description" value="<%= product.description %>" disabled
 					required /> -->
 			</div>
+
 			<div class="form-group col-md-12">
 				<!-- <input type="button" value="submit ->"> -->
 				<button class="btn btn-success float-right" type="submit" onclick="getUpdate()" id="getUpdated" style="display: none;">Save Product</button>

@@ -9,22 +9,28 @@ const { sequelize } = require('../db');
 
 // console.log(User.toString())
 
-const User = passportLocalSequelize.defineUser(sequelize, {
+const User = passportLocalSequelize.defineUser(
+  sequelize,
+  {
     // attributes
     firstName: {
       type: Sequelize.STRING,
-      allowNull: false
+      allowNull: false,
     },
     lastName: {
-      type: Sequelize.STRING
+      type: Sequelize.STRING,
       // allowNull defaults to true
     },
     email: {
-      type: Sequelize.STRING
+      type: Sequelize.STRING,
       // allowNull defaults to true
     },
     phone: {
-      type: Sequelize.STRING
+      type: Sequelize.STRING,
+      // allowNull defaults to true
+    },
+    image: {
+      type: Sequelize.STRING,
       // allowNull defaults to true
     },
     status: {
@@ -36,10 +42,12 @@ const User = passportLocalSequelize.defineUser(sequelize, {
       type: Sequelize.ENUM,
       values: ['admin', 'user', 'super'],
       defaultValue: 'user',
-    }
-}, {
+    },
+  },
+  {
     usernameField: 'email',
-})
+  }
+);
 
 // User.init(
 //   {

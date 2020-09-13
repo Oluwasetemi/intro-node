@@ -4,17 +4,23 @@ const User = require('../models/user');
 // const { match } = require('../util/helpers');
 
 exports.passwordReset = (req, res) => {
-  res.render('forgetPassword.ejs');
+  const { user } = res.locals;
+  res.render('forgetPassword.ejs', {
+    users: user,
+  });
 };
 
 exports.reset = async (req, res) => {
+  const { user } = res.locals;
   // check if email exist
   // console.log(req.body.email);
   const userExist = await User.findOne({ where: { email: req.body.email } });
   console.log(userExist);
   if (!userExist) {
     req.flash('error', `User does not exist`);
-    return res.render('forgetPassword.ejs');
+    return res.render('forgetPassword.ejs', {
+      users: user,
+    });
   }
   const username = userExist.dataValues.email;
   console.log(username);

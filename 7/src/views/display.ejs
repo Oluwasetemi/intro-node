@@ -4,31 +4,26 @@
     <% if (productDetail.length > 0) {%>
         <h1><%= productDetail.userId %></h1>
         <br />
-    <div class="row">
+        <div class="row">
         <% productDetail.forEach((product, index) => { %>
         <div class=" col-md-3 col-sm-6 col-6">
             <div class="myCard card" style="width: 13rem; margin: 1rem;">
                 <div>
                     <img class="card-img-top" src="/img/<%= product.image %>" alt="Card image cap">
-                        <p class="letsee btn btn-danger">50%</p>
+                        <p class="letsee btn btn-danger"><%= product.discount %>%</p>
                 </div>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item"><%= product.productName %>: #<%= product.productId %> </li>
-                    <!-- <li class="list-group-item">Product Price: <%= product.productId %> </li> -->
+                    <li class="list-group-item"><%= product.productName %>: #<%= product.price %> </li>
                 </ul>
-                <div class="card-body">
-                    <h6 class="card-title">Description:</h6>
-                    <p class="card-text"><%= product.description %></p>
-                </div>
+               
                 <div class="card-body">
                     <a href="#" class="card-link btn btn-danger">Order Now</a>
-                    <!-- <a href="#" class="card-link">Another link</a> -->
                 </div>
             </div>
 
         </div>
         <% }) %>
-    </div>
+        </div>
 
     <% } else { %>
         <p>No product found. Go <a href="/products" >here</a> to add product.</p>

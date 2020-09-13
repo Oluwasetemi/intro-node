@@ -3,7 +3,11 @@
     height: 150px;
     margin-left: auto;
     margin-right: auto;
-} */
+}  */
+#categories {
+    padding-top: 4px !important;
+}
+
 .figure-img {
     margin-top: .3rem;
     
@@ -41,10 +45,13 @@
 .image-area img {
     z-index: 2;
     position: relative;
-    width: 150px;
-    height: 150px;
+    width: 150px !important;
+    height: 150px !important;
 }
-
+.profile-section .profile-image {
+    max-width: 150px !important;
+    height: 100px !important;
+}
 .letsee {
     padding-top: -15px;
     margin-top: -100px;
@@ -75,4 +82,8 @@ color: #fff;
 
 .navbar > ul > li {
     font-weight: 400;
+}
+
+img {
+    max-height: 150px;
 }

@@ -9,16 +9,30 @@ Product.init(
   {
     // attributes
     productId: {
-        type: Sequelize.STRING,
-        allowNull: false,
-      },
+      type: Sequelize.STRING,
+      allowNull: false,
+    },
     productName: {
       type: Sequelize.STRING,
       allowNull: false,
     },
+    location: {
+      type: Sequelize.STRING,
+      // allowNull defaults to true
+    },
+    categories: {
+      type: Sequelize.STRING,
+      // allowNull defaults to true
+    },
     quantity: {
       type: Sequelize.STRING,
       // allowNull defaults to true
+    },
+    price: {
+      type: Sequelize.STRING,
+    },
+    discount: {
+      type: Sequelize.STRING,
     },
     barcode: {
       type: Sequelize.STRING,
@@ -40,7 +54,6 @@ Product.init(
   {
     sequelize,
     modelName: 'Product',
-    // optionsb 
   }
 );
 

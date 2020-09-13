@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 const express = require('express');
 const passport = require('passport');
 
@@ -15,23 +16,19 @@ router.get('/card', (req, res) => {
 });
 
 // Display home Page
-router.get('/', authController.sessionChecker, (req, res) => {
-  // console.log(req.session);
-  // req.flash('success', 'Welcome to Home Page Flash');
-  //  render to views/home.ejs
-  const { user } = res.locals;
-  // console.log(res.locals);
-  // console.log(user.firstName);
-  // console.log(req.isAuthenticated());
+// router.get('/', (req, res) => {
+//   return res.render('display',
+//     {
+//       users: res.locals.user,
+//       productDetail: res.locals.products,
+//     }
+//   );
+// });
 
-  return res.render('home', {
-    users: user,
-  });
-});
-// router.get('/', productController.displayProduct);
-
-
-router.get('/register', userController.homePage);
+router.get(
+  '/',
+  productController.displayProduct,
+);
 
 // Product Route
 router.get(
@@ -40,17 +37,14 @@ router.get(
   productController.productPage
 );
 
-router.get(
-  '/dashboard',
-  authController.isLoggedIn,
-  productController.getProduct
-);
-router.get(
-  '/dashboard/page/:pageNumber',
-  authController.isLoggedIn,
-  productController.getProduct
-);
 // Product Route With Pagination
+
+// Create Product
+router.post(
+  '/products',
+  authController.isLoggedIn,
+  productController.product
+);
 
 // Get product based on product Id
 router.get(
@@ -59,17 +53,24 @@ router.get(
   productController.viewProductPage
 );
 
-// Display Product
-router.get('/product', productController.getProduct);
+// Get product based on users
+router.get(
+  '/productByUser',
+  authController.isLoggedIn,
+  productController.getProduct
+);
 
-// Create Product
-router.post('/products', authController.isLoggedIn, productController.product);
+router.get(
+  '/productByUser/page/:pageNumber',
+  authController.isLoggedIn,
+  productController.getProduct
+);
 
 // Update Product
-// router.put('/product/:productId', productController.editProduct);
 router.post(
   '/product/:productId',
   authController.isLoggedIn,
+  // authController.isAuthurized,
   productController.editProduct
 );
 
@@ -77,18 +78,49 @@ router.post(
 router.delete(
   '/product/:productId',
   authController.isLoggedIn,
-  authController.isAuthurized,
   productController.deleteProduct
 );
 
+router.get('/register', userController.registration);
 
 router.post('/register', userController.register, authController.login);
+
+router.get(
+  '/dashboard',
+  authController.isLoggedIn,
+  userController.viewUser
+);
+
+router.get(
+  '/users/:username',
+  authController.isLoggedIn,
+  userController.viewUsers
+);
+
+router.get(
+  '/user/:username',
+  authController.isLoggedIn,
+  userController.viewUser
+);
+
+// Update User
+router.post(
+  '/user/:username',
+  authController.isLoggedIn,
+  // authController.isAuthurized,
+  userController.editUser
+);
+
+// Delete User
+router.delete(
+  '/delete/:username',
+  authController.isLoggedIn,
+  userController.deleteUser
+);
 
 router.get('/login', authController.loginForm);
 
 router.post('/login', authController.login);
-
-// router.get('/dashboard', authController.isLoggedIn, userController.dashboard);
 
 // Logout Handler
 router.get('/logout', authController.logout);

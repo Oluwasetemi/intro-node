@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>
+      AdefamOpenShop: Dashboard
+    </title>
+
+    <!-- Meta -->
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="AdefamOpenShop Bootstrap 4 Template" />
+    <meta name="author" content="Famosa Adegbite at Adefam Computer Infotech" />
+    <link rel="shortcut icon" href="favicon.ico" />
+
+    <!-- Google Fonts -->
+    <link id="theme-style" rel="stylesheet" href="/css/googlefont.css" />
+
+    <!-- FontAwesome JS -->
+    <script defer src="/js/all.js"></script>
+
+    <!-- Plugin CSS -->
+    <link rel="stylesheet" href="/css/tiny-slider.css" />
+
+    <!-- Style2 replace with bootstrap.min.css -->
+    <link id="theme-style" rel="stylesheet" href="/css/style2.css" />
+    <link id="theme-style" rel="stylesheet" href="/css/style.css" />
+    
+    <!-- Pagination Script -->
+    <script type="text/javaScript" src="/js/index.js"></script>
+    
+  </head>
+  <style>
+    .table-wrapper {
+      margin-top: 50px;
+    }
+
+    .clear-link {
+
+    }
+  
+    .product-img {
+      width: 40px;
+      height: 40px;
+    }
+  
+    .add-player-form {
+      margin-top: 50px;
+    }
+  
+    .center {
+      /* position: relative; */
+      padding-left: auto !important;
+      padding-right: auto !important;
+      /* align-content:center !important; */
+    }
+    
+  </style>
+
+  <body>
+    <header class="header text-center">
+      <div class="force-overflow">
+        <h1 class="blog-name pt-lg-4 mb-0">
+          <a href="/">Adefam OpenShop</a>
+        </h1>
+
+        <nav class="navbar navbar-expand-lg navbar-dark">
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navigation"
+            aria-controls="navigation"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div id="navigation" class="collapse navbar-collapse flex-column">
+            <div class="profile-section pt-3 pt-lg-0">
+              <img
+                class="profile-image mb-3 rounded-circle mx-auto"
+                src="/userimg/<%= users.image %>"
+                alt="image"
+              />
+              <h5 class="name pt-lg-3 mr-2">
+                <a class="dropdown-item" href="/user/<%= users.username %>">
+                <%= users.lastName  %> <%= users.firstName  %>
+                </a>
+              </h5>
+
+              <!--//bio-->
+              <ul class="social-list list-inline py-2 mx-auto">
+                <li class="list-inline-item">
+                  <a href="#"><i class="fab fa-twitter fa-fw"></i></a>
+                </li>
+                <li class="list-inline-item">
+                  <a href="#"><i class="fab fa-linkedin-in fa-fw"></i></a>
+                </li>
+                <li class="list-inline-item">
+                  <a href="#"><i class="fab fa-github-alt fa-fw"></i></a>
+                </li>
+                <li class="list-inline-item">
+                  <a href="#"><i class="fab fa-stack-overflow fa-fw"></i></a>
+                </li>
+                <li class="list-inline-item">
+                  <a href="#"><i class="fab fa-codepen fa-fw"></i></a>
+                </li>
+              </ul>
+              <!--//social-list-->
+              <hr />
+            </div>
+            <!--//profile-section-->
+            <% if (users.type === 'admin') { %>
+            
+              <ul class="navbar-nav flex-column text-left">
+              
+                <!-- User Link -->
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="/" id="navbarDropdown" role="button" data-toggle="dropdown"
+                    aria-haspopup="false" aria-expanded="false">
+                    <i class="fas fa-users fa-fw mr-2"></i>Users<span class="sr-only">(current)</span>
+                  </a>
+                  <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="/users/<%= users.username %>">View Users</a>
+                    <a class="dropdown-item" href="/register">Create User</a>
+                    <a class="dropdown-item" href="/user/<%= users.username %>">Update User</a>
+                    <a class="dropdown-item" href="/delete/<%= users.username %>">Delete User</a>
+                  </div>
+                </li>
+                <!-- Product Link -->
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                    aria-haspopup="false" aria-expanded="false">
+                    <i class="fas fa-briefcase fa-fw mr-2"></i>Products
+                  </a>
+                  <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="/productByUser">View Products</a>
+                    <a class="dropdown-item" href="/products">Create Product</a>
+                    <a class="dropdown-item" href="/">Update Product</a>
+                    <a class="dropdown-item" href="/">Delete Product</a>
+                  </div>
+                </li>
+              
+                <!-- Order Link -->
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                    aria-haspopup="false" aria-expanded="false">
+                    <i class="fas fa-file-alt fa-fw mr-2"></i>Orders
+                  </a>
+                  <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="/">View Orders</a>
+                    <a class="dropdown-item" href="/">Manage Orders</a>
+                    <a class="dropdown-item" href="/">Delete Order</a>
+                  </div>
+                </li>
+              
+                <!-- FeedBack Link -->
+                <li class="nav-item">
+                  <a class="nav-link" href="/"><i class="fas fa-laptop-code fa-fw mr-2"></i>Feedback</a>
+                </li>
+              
+                <!-- Blog Link -->
+                <li class="nav-item">
+                  <a class="nav-link" href="/"><i class="fas fa-blog fa-fw mr-2"></i>Blog</a>
+                </li>
+              
+                <!-- Contact Link -->
+                <li class="nav-item">
+                  <a class="nav-link" href="/"><i class="fas fa-envelope-open-text fa-fw mr-2"></i>Contact</a>
+                </li>
+              
+                <!-- Other Settings -->
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                    aria-haspopup="false" aria-expanded="false">
+                    <i class="fas fa-cogs fa-fw mr-2"></i>Other Settings
+                  </a>
+                  <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="/">Work in progress</a>
+                  </div>
+                </li>
+              </ul>
+
+            <% } else { %>
+            
+              <ul class="navbar-nav flex-column text-left">
+              
+                <!-- User Link -->
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="/dashboard" id="navbarDropdown" role="button" data-toggle="dropdown"
+                    aria-haspopup="false" aria-expanded="false">
+                    <i class="fas fa-users fa-fw mr-2"></i>Users<span class="sr-only">(current)</span>
+                  </a>
+                  <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="/user/<%= users.username %>">View Users</a>
+                    <!-- <a class="dropdown-item" href="/user/<%= users.username %>">Update User</a> -->
+                    <!-- <button class="dropdown-item" type="submit" onclick="editUser()">Update User</button>
+                    <a class="dropdown-item" href="/delete/<%= users.username %>">Delete User</a> -->
+                  </div>
+                </li>
+                <!-- Product Link -->
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                    aria-haspopup="false" aria-expanded="false">
+                    <i class="fas fa-briefcase fa-fw mr-2"></i>Products
+                  </a>
+                  <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="/productByUser">View Products</a>
+                    <a class="dropdown-item" href="/products">Create Product</a>
+                    <!-- <a class="dropdown-item" href="/">Update Product</a>
+                    <a class="dropdown-item" href="/">Delete Product</a> -->
+                  </div>
+                </li>
+              
+                <!-- Order Link -->
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                    aria-haspopup="false" aria-expanded="false">
+                    <i class="fas fa-file-alt fa-fw mr-2"></i>Orders
+                  </a>
+                  <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="/">View Orders</a>
+                  </div>
+                </li>
+              
+                <!-- FeedBack Link -->
+                <li class="nav-item">
+                  <a class="nav-link" href="/"><i class="fas fa-laptop-code fa-fw mr-2"></i>Feedback</a>
+                </li>
+              
+                <!-- Blog Link -->
+                <li class="nav-item">
+                  <a class="nav-link" href="/"><i class="fas fa-blog fa-fw mr-2"></i>Blog</a>
+                </li>
+              
+                <!-- Contact Link -->
+                <li class="nav-item">
+                  <a class="nav-link" href="/"><i class="fas fa-envelope-open-text fa-fw mr-2"></i>Contact</a>
+                </li>
+              </ul>
+
+            <% } %>
+            
+
+            <!-- Login and Logout -->
+            <div class="my-2">
+              <a class="btn btn-primary" href="/logout"
+                ><i class="fas fa-paper-plane mr-2"></i>Logout</a
+              >
+            </div>
+            
+          </div>
+        </nav>
+      </div>
+      <!--//force-overflow-->
+    </header>
+
+    <div class="main-wrapper">
+      <!-- <section class="overview-section p-3 p-lg-5">
+        <div class="container">
+          { {body} }
+        </div>
+      </section> -->
+
+  

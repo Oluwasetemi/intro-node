@@ -4,9 +4,11 @@ const User = require('../models/user');
 // Loading Login Page
 exports.loginForm = (req, res) => {
   const { user } = res.locals;
- if (req.isAuthenticated()) {
-   return res.render('dashboard', {
-     users: user,
+  console.log(req.isAuthenticated());
+  if (req.isAuthenticated()) {
+    return res.render('dashboard', {
+      user,
+      users: user,
     });
   }
   // console.log(users);
@@ -23,7 +25,9 @@ exports.login = (req, res, next) => {
     }
     if (!user) {
       req.flash('error', 'Your Username or Password is incorrect');
-      return res.render('loginform');
+      return res.render('loginform', {
+        users: user.dataValues,
+      });
       // return res.json({ status: 'error', message: info.message });
     }
     req.logIn(user, function(err) {
@@ -33,14 +37,12 @@ exports.login = (req, res, next) => {
       // console.log(user.dataValues);
       req.flash('success', `User logged in successfully`);
       // { req.user.dataValues };
-      // res.redirect('/dashboard')
-      // console.log(user);
-      
-      const { localUser } = res.locals;
+      // return res.redirect('/')
+      // console.log(user.dataValues);
       return res.render('dashboard', {
         ...user.dataValues,
-        users: localUser,
-        productDetail: res.locals.products,
+        user,
+        users: user.dataValues,
       });
     });
   })(req, res, next);
@@ -50,21 +52,21 @@ exports.login = (req, res, next) => {
 exports.isLoggedIn = (req, res, next) => {
   if (!req.isAuthenticated()) {
     req.flash('error', 'Oops you must be logged in to do that!');
-    res.redirect('/login');
+    return res.redirect('/login');
   }
-  return next();
+  next();
 };
 
-// Authorization 
+// Authorization
 exports.isAuthurized = (req, res, next) => {
   const { user } = res.locals;
   const { userType } = user.type;
   if (userType !== 'admin') {
     req.flash('error', 'Need user previlegis before you can access the files');
-    res.redirect('/dashboard');
+    return res.redirect('/dashboard');
   }
-  res.send('Working');
-  return next();
+  // res.send('Working');
+  next();
 };
 
 // Session Verification
@@ -72,10 +74,9 @@ exports.sessionChecker = (req, res, next) => {
   // console.log('Sess', req.session.passport);
   if (req.session.passport && req.cookies.adefams_shop) {
     // console.log('Session2', req.session.passport);
-    res.redirect('/dashboard');
-  } else {
-    next();
+    return res.redirect('/dashboard');
   }
+  next();
 };
 
 // Logout Handle

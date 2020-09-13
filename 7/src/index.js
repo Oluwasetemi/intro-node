@@ -45,7 +45,7 @@ app.use(
     secret: process.env.TOKEN_SECRET,
     store: sessionStore,
     resave: false, // don't save session if unmodified
-    saveUninitialized: false, // don't create session until something stored
+    saveUninitialized: true, // don't create session until something stored
     key: 'adefams_shop',
     // name: 'adefams_shop',
   })
@@ -57,16 +57,15 @@ app.use(passport.session());
 
 // pass variables to our templates + all requests
 app.use((req, res, next) => {
-  console.log(req.cookies.process.env.KEY);
+  if (req.cookies.adefams_shop && !req.session.passport) {
+    res.clearCookie('adefams_shop');
+  }
+  console.log('Session1:', req.session.passport);
   res.locals.h = helpers;
   res.locals.flashes = req.flash();
   res.locals.user = req.user || null;
   res.locals.products = req.products || [];
   res.locals.currentPath = req.path;
-
-  if (req.cookies.adefams_shop && !req.session.passport) {
-    res.clearCookie('adefams_shop');
-  }
 
   next();
 });
